@@ -5,7 +5,7 @@ COPY renv.lock renv.lock
 RUN R -e "renv::consent(provided=TRUE); renv::restore(prompt=FALSE)"
 
 # Install Julia 1.11.6
-ENV JULIA_VERSION=11.11.6
+ENV JULIA_VERSION=1.11.6
 RUN /rocker_scripts/install_julia.sh
 
 # Install Julia packages and manage dependencies
