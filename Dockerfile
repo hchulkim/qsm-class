@@ -9,7 +9,7 @@ ENV JULIA_VERSION=11.11.6
 RUN /rocker_scripts/install_julia.sh
 
 # Install Julia packages and manage dependencies
-COPY Manifest.toml Project toml .
+COPY Manifest.toml Project.toml .
 ENV JULIA_PROJECT=/home/project
 RUN julia -e "import Pkg; Pkg.activate(\".\"); Pkg.instantiate()"
 
