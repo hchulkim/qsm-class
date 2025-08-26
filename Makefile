@@ -21,13 +21,11 @@ dag: makefile-dag.png
 makefile-dag.png: Makefile
 	make -Bnd all | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
 
-raw: raw_test
+raw: 
 
-raw_test:
-	touch $(inputdir)testing.txt
 
 clean:
 	rm -f $(inputdir)* $(figsdir)* $(tabsdir)* $(papdir)* $(slidsdir)*
 	
 ## Helpers
-.PHONY: all clean raw raw_test
+.PHONY: all clean raw
