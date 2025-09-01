@@ -1,0 +1,124 @@
+---
+title: Coding assignment (QSM class)
+format:
+  aea-pdf:
+    keep-tex: true  
+    journal:
+      blinded: false
+    indent: true
+    citecolor: cyan
+    linkcolor: cyan
+    urlcolor: cyan
+  aea-html: default
+title-footnote: |
+  Some footnotes on the title...
+author-format: horizontal
+author:
+  - name: Hyoungchul Kim
+    acknowledgements: | 
+      The creator. We want to thank...
+    affiliations:
+      - name: The Wharton School, University of Pennsylvania
+date: last-modified
+articleurl: https://hchulkim.github.io
+abstract: |
+  This is a coding assignment for the QSM class.
+keywords:
+  - 3 to 6 keywords
+bibliography: bibliography.bib  
+---
+
+## Main data information {#sec-main-data-info}
+
+I am using the 2022 LODES data from LEHD for my analysis. I obtained the raw data for Philadelphia county from the LEHD website and aggregated the data into tract-tract level. The process of cleaning the raw data was conducted using the source code: `src/R/01_clean_raw_data.R`.
+
+Thus my primary analysis zone will be bilateral commuting flow within Philadelphia county for the year 2022. This means I will not be considering the flow where either the origin or the destination is outside of Philadelphia county.
+
+## Q1 {.unnumbered}
+
+As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data from LEHD LODES for the year 2022. I also downloaded supporting data on the locations of the tracts or blocks underlying the the data. I downloaded them in the `input` folder. You can also use `make raw` command to automatically download the raw data.[^1]
+
+[^1]: Note that if you want to re-download the raw data, you must first use `make clean` command to remove the raw data in the `input` folder. Also note that if the original data was updated during the course of the semester, there is a likelihood that the new downloaded data might have different data structure that could affect the analysis.
+
+## Q2 {.unnumbered}
+
+For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used `sf` package and `tigris` package in R. 
+
+
+
+## Introduction {#sec-intro}
+
+I will show some examples of things you can easily do in quarto-format.
+
+### Math
+
+You can easily use latex math format in quarto.
+
+This is in-line math: $x + y = 7$.
+
+This is display-style math:
+$$x + y = 7.$$
+
+You can also use begin align style syntax:
+\begin{align}
+  x + y &= 7\label{eq:1}\\
+  t + v &= 10.\label{eq:2}
+\end{align}
+
+This is equation \ref{eq:1}. This is equation \ref{eq:2}.
+
+### Figures
+
+Putting figures is easy in quarto. Use syntax like this:
+
+
+## Related literature {#sec-lit}
+
+Some citation example.
+
+@schott: The famous international trade PNTR paper.
+
+@berlin: Another famous paper in urban/spatial economics.
+
+You can also put them inside the paranthesis: [@schott; @berlin].
+
+Also, you can cite sections: @sec-lit.
+
+## Methods {#sec-meth}
+
+Some few rounds of Lorem ipsums to give you a sense of the format:
+
+Lorem ipsum. Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
+
+Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
+
+Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
+
+## Results {#sec-result}
+
+I am not sure you would need this, but in quarto, you can directly type codes and get their outputs (I know it's not pretty... You can customize it later if you want though):
+
+```{r}
+
+attitude |> head()
+
+```
+
+## Conclusion {#sec-conc}
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+## Appendix {.supplementary}
+
+`{.supplementary}` works as an indicator that makes the section centered. Useful when starting an appendix or supplementary sections.
+
+### Appendix A {.unnumbered}
+
+Use `{.unnumbered}` to unnumber the section and give your own numbering.
+
+### Appendix B {.unnumbered}
+
+## Supplementary {.supplementary}
