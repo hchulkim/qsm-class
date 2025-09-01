@@ -16,14 +16,14 @@ RUN julia -e "import Pkg; Pkg.activate(\".\"); Pkg.instantiate()"
 # Then copy the rest
 COPY . .
 
-# make output and shared folder
-RUN mkdir -p output/tables output/figures output/paper shared_folder
+# make shared folder
+RUN mkdir shared_folder
 
 # Build DAG
 RUN make dag
 
 # Put DAG into output
-RUN mv makefile-dag.png output/makefile-dag.png
+RUN mv makefile-dag.png output/
 
 CMD mv /home/project/output/* /home/project/shared_folder/
 
