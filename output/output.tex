@@ -256,6 +256,12 @@ This is a coding assignment for the QSM class.
 \newpage
 \spacingset{1.2} % DON'T change the spacing!
 
+\section{Use of programming
+language}\label{sec-use-of-programming-language}
+
+For questions 1-6, I used \texttt{R} programming language. For other
+questions, I used \texttt{julia} programming language.
+
 \section{Main data information}\label{sec-main-data-info}
 
 I am using the 2022 LODES data from LEHD for my analysis. I obtained the
@@ -269,8 +275,8 @@ Philadelphia county for the year 2022. This means I will not be
 considering the flow where either the origin or the destination is
 outside of Philadelphia county.
 
-\section*{Q1}\label{q1}
-\addcontentsline{toc}{section}{Q1}
+\subsection*{Q1}\label{q1}
+\addcontentsline{toc}{subsection}{Q1}
 
 As I mentioned in Section~\ref{sec-main-data-info}, I obtained bilateral
 commuting flow data from LEHD LODES for the year 2022. I also downloaded
@@ -284,18 +290,91 @@ data.\footnote{Note that if you want to re-download the raw data, you
   the new downloaded data might have different data structure that could
   affect the analysis.}
 
-\section*{Q2}\label{q2}
-\addcontentsline{toc}{section}{Q2}
+\subsection*{Q2}\label{q2}
+\addcontentsline{toc}{subsection}{Q2}
 
 For distance, I will use the distance between the centroids of the
 origin and destination tracts. For this, I used \texttt{sf} package and
-\texttt{tigris} package in R.
+\texttt{tigris} package in R to calculate the distance between the
+centroids of the origin and destination tracts. The source code is
+available in \texttt{src/R/02\_calculate\_distance.R}. I also retained
+the fixed effects estimates in the Appendix.
 
-\section{Introduction}\label{sec-intro}
+\subsection*{Q3}\label{q3}
+\addcontentsline{toc}{subsection}{Q3}
+
+I estimated the following linear model:
+
+\[
+\log(N_{ij}) = \theta_{i} + \lambda_{j} + \kappa d_{ij} + \varepsilon_{ij}\label{eq:distance}
+\]
+
+The estimation results are reported in the following table:
+
+\clearpage
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results}
+\label{tab:est_results}
+\input{tables/q3_linear_model.tex}
+\end{table}
+
+\footnotesize \textbf{Note}: This table presents estimates results of
+the equation \ref{eq:distance}. \texttt{distance\_km} is the estimates
+of the semi-elasticity of the travel time (or distance). The values in
+the paranthesis in the table is the standard error.\vspace{3em}
+
+\normalsize
+
+You can see that the estimates of the semi-elasticity of the travel time
+(or distance) is sensible as it is negative (-0.07). This indicates that
+the travel time (or distance) has a negative correlation with the
+commuting flow.
+
+\section*{Q4}\label{q4}
+\addcontentsline{toc}{section}{Q4}
+
+After including all the \(ij\) pairs and adding in zero commuting flows,
+I estimated the PPML model as follows:
+
+\[
+\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} + \kappa d_{ij}\label{eq:ppml}
+\]
+
+The estimation results are reported in the following table (I also
+retained the fixed effects estimates in the Appendix):
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the PPML model}
+\label{tab:est_ppml}
+\input{tables/q4_ppml.tex}
+\end{table}
+
+\footnotesize \textbf{Note}: This table presents estimates results of
+the equation \ref{eq:ppml}. \texttt{distance\_km} is the estimates of
+the semi-elasticity of the travel time (or distance). The values in the
+paranthesis in the table is the standard error.\vspace{3em}
+
+\normalsize
+
+We can clearly see that the etimates of the semi-elasticity of the
+distance differs from the estimates in the previous question. The
+absolute size of the estimates is larger in the PPML model. Intuitively,
+I think this occurs because the PPML model incorporates the zero
+commuting flows that were neglected in the linear model. Since the zero
+commuting flows were not fully incorporated in the linear model, the
+estimates in the linear model were underestimating the effect of the
+travel-time cost on the commuting flow.
+
+\clearpage
+
+\subsection{Introduction}\label{sec-intro}
 
 I will show some examples of things you can easily do in quarto-format.
 
-\subsection{Math}\label{math}
+\subsubsection{Math}\label{math}
 
 You can easily use latex math format in quarto.
 
@@ -310,11 +389,11 @@ You can also use begin align style syntax: \begin{align}
 
 This is equation \ref{eq:1}. This is equation \ref{eq:2}.
 
-\subsection{Figures}\label{figures}
+\subsubsection{Figures}\label{figures}
 
 Putting figures is easy in quarto. Use syntax like this:
 
-\section{Related literature}\label{sec-lit}
+\subsection{Related literature}\label{sec-lit}
 
 Some citation example.
 
@@ -326,7 +405,7 @@ You can also put them inside the paranthesis: \citep{schott, berlin}.
 
 Also, you can cite sections: Section~\ref{sec-lit}.
 
-\section{Methods}\label{sec-meth}
+\subsection{Methods}\label{sec-meth}
 
 Some few rounds of Lorem ipsums to give you a sense of the format:
 
@@ -374,7 +453,7 @@ ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem
 ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem
 ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
 
-\section{Results}\label{sec-result}
+\subsection{Results}\label{sec-result}
 
 I am not sure you would need this, but in quarto, you can directly type
 codes and get their outputs (I know it's not pretty\ldots{} You can
@@ -396,10 +475,10 @@ customize it later if you want though):
 6     43         55         49       44     54       49      34
 \end{verbatim}
 
-\section{Conclusion}\label{sec-conc}
+\subsection{Conclusion}\label{sec-conc}
 
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
+\subsection*{References}\label{references}
+\addcontentsline{toc}{subsection}{References}
 
 \renewcommand{\bibsection}{}
 \bibliography{bibliography.bib}
@@ -416,14 +495,14 @@ customize it later if you want though):
 \texttt{\{.supplementary\}} works as an indicator that makes the section
 centered. Useful when starting an appendix or supplementary sections.
 
-\subsection*{Appendix A}\label{appendix-a}
-\addcontentsline{toc}{subsection}{Appendix A}
+\subsubsection*{Appendix A}\label{appendix-a}
+\addcontentsline{toc}{subsubsection}{Appendix A}
 
 Use \texttt{\{.unnumbered\}} to unnumber the section and give your own
 numbering.
 
-\subsection*{Appendix B}\label{appendix-b}
-\addcontentsline{toc}{subsection}{Appendix B}
+\subsubsection*{Appendix B}\label{appendix-b}
+\addcontentsline{toc}{subsubsection}{Appendix B}
 
 \phantomsection\label{supplementary}
 \bigskip

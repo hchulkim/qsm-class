@@ -28,7 +28,11 @@ keywords:
 bibliography: bibliography.bib  
 ---
 
-## Main data information {#sec-main-data-info}
+# Use of programming language {#sec-use-of-programming-language}
+
+For questions 1-6, I used `R` programming language. For other questions, I used `julia` programming language.
+
+# Main data information {#sec-main-data-info}
 
 I am using the 2022 LODES data from LEHD for my analysis. I obtained the raw data for Philadelphia county from the LEHD website and aggregated the data into tract-tract level. The process of cleaning the raw data was conducted using the source code: `src/R/01_clean_raw_data.R`.
 
@@ -42,9 +46,55 @@ As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data 
 
 ## Q2 {.unnumbered}
 
-For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used `sf` package and `tigris` package in R. 
+For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used `sf` package and `tigris` package in R to calculate the distance between the centroids of the origin and destination tracts. The source code is available in `src/R/02_calculate_distance.R`. I also retained the fixed effects estimates in the Appendix.
 
+## Q3 {.unnumbered}
 
+I estimated the following linear model:
+
+$$
+\log(N_{ij}) = \theta_{i} + \lambda_{j} + \kappa d_{ij} + \varepsilon_{ij}\label{eq:distance}
+$$
+
+The estimation results are reported in the following table:
+
+\clearpage
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results}
+\label{tab:est_results}
+\input{tables/q3_linear_model.tex}
+\end{table}
+\footnotesize \textbf{Note}: This table presents estimates results of the equation \ref{eq:distance}. `distance_km` is the estimates of the semi-elasticity of the travel time (or distance). The values in the paranthesis in the table is the standard error.\vspace{3em}
+
+\normalsize
+
+You can see that the estimates of the semi-elasticity of the travel time (or distance) is sensible as it is negative (-0.07). This indicates that the travel time (or distance) has a negative correlation with the commuting flow.
+
+# Q4 {.unnumbered}
+
+After including all the $ij$ pairs and adding in zero commuting flows, I estimated the PPML model as follows:
+
+$$
+\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} + \kappa d_{ij}\label{eq:ppml}
+$$
+
+The estimation results are reported in the following table (I also retained the fixed effects estimates in the Appendix):
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the PPML model}
+\label{tab:est_ppml}
+\input{tables/q4_ppml.tex}
+\end{table}
+\footnotesize \textbf{Note}: This table presents estimates results of the equation \ref{eq:ppml}. `distance_km` is the estimates of the semi-elasticity of the travel time (or distance). The values in the paranthesis in the table is the standard error.\vspace{3em}
+
+\normalsize
+
+We can clearly see that the etimates of the semi-elasticity of the distance differs from the estimates in the previous question. The absolute size of the estimates is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimates in the linear model were underestimating the effect of the travel-time cost on the commuting flow. 
+
+\clearpage
 
 ## Introduction {#sec-intro}
 
