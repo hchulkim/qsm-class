@@ -1,5 +1,7 @@
 FROM hchulkim/r_4.5.1:master-e8ada17073138a2f323b2a7e80f0c51eac1f438e
 
+ENV STRINGI_ICU_BUNDLE=internal
+
 # Restore via lockfile first for better caching
 COPY renv.lock renv.lock
 RUN R -e "renv::consent(provided=TRUE); renv::restore(prompt=FALSE)"
