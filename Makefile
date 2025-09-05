@@ -11,15 +11,38 @@ figsdir = output/figures/
 tabsdir = output/tables/
 papdir = output/paper/
 slidsdir = output/slides/
+rdir = src/R/
 
 ## Headline build
-all: 
+all: question1_6
 
 ## Draw the Makefile DAG
 ## Requires: https://github.com/lindenb/makefile2graph
 dag: makefile-dag.png
 makefile-dag.png: Makefile
 	make -Bnd all | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
+
+question1_6: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv $(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz
+
+$(inputdir)temp/philly_od_tract_tract_2022.csv.gz: $(inputdir)pa_od_main_JT00_2022.csv.gz $(rdir)01_clean_raw_data.R
+	Rscript $(rdir)01_clean_raw_data.R \
+	 --input input.yml
+
+$(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(rdir)02_calculate_distance.R
+	Rscript $(rdir)02_calculate_distance.R \
+	 --input input.yml
+
+$(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv &: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(rdir)03_est_linear_model.R
+	Rscript $(rdir)03_est_linear_model.R \
+	 --input input.yml
+
+$(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(rdir)04_est_ppml.R
+	Rscript $(rdir)04_est_ppml.R \
+	 --input input.yml
+
+$(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz &: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(rdir)05_calculate_distance_ii.R
+	Rscript $(rdir)05_calculate_distance_ii.R \
+	 --input input.yml
 
 raw: $(inputdir)pa_od_main_JT05_2020.csv.gz $(inputdir)pa_od_main_JT05_2021.csv.gz $(inputdir)pa_od_main_JT05_2022.csv.gz
 
@@ -38,7 +61,7 @@ $(inputdir)pa_od_main_JT05_2020.csv.gz $(inputdir)pa_od_main_JT05_2021.csv.gz $(
 
 
 clean:
-	rm -f $(inputdir)* $(figsdir)* $(tabsdir)* $(papdir)* $(slidsdir)*
+	rm -f $(inputdir)temp/* $(figsdir)* $(tabsdir)*
 	
 ## Helpers
-.PHONY: all clean raw
+.PHONY: all clean raw question1_6

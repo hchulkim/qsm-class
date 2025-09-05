@@ -3,13 +3,20 @@
 # purpose: estimate ppml model
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, tigris, sf)
+pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, tigris, sf, argparse, yaml)
 
 # set working directory
-here::i_am("src/R/04_est_ppml.R")
+# here::i_am("src/R/04_est_ppml.R")
+
+parser <- ArgumentParser()
+parser$add_argument("--input", type = "character")
+args <- parser$parse_args()
+
+# read yaml
+input_yaml <- yaml.load_file(args$input)
 
 # load the cleaned data
-data <- fread(here("input", "temp", "philly_od_tract_tract_2022.csv.gz"),
+data <- fread(here("input", "temp", input_yaml$tract_tract$main),
     colClasses = list(character = c("h_tract", "w_tract"))
 )
 
@@ -24,7 +31,7 @@ full_data <- expand.grid(
 
 
 # Calculate all pairwise distances between tracts
-distance_matrix <- st_distance(tracts, tracts)
+distance_matrix <- st_distance(st_centroid(tracts), st_centroid(tracts))
 
 # Convert to data.table for easier merging
 tract_ids <- tracts$GEOID
@@ -39,7 +46,7 @@ full_data <- merge(full_data, distance_dt, by.x = c("w_tract", "h_tract"), by.y 
 # Convert distance to kilometers
 full_data[, distance_km := distance_meters / 1000]
 
-
+# rename the all flow variable
 setnames(data, "S000", "flow_all")
 
 full_data <- merge(full_data, data, by.x = c("w_tract", "h_tract"), by.y = c("w_tract", "h_tract"), all.x = TRUE)
@@ -64,9 +71,10 @@ texreg(res,
     file = here("output", "tables", "q4_ppml.tex")
 )
 
-
+# get the fixed effects
 fe <- fixef(res)
 
+# create the data table for the fixed effects
 dt <- rbindlist(
     lapply(names(fe), function(nm) {
         data.table(

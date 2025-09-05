@@ -1,12 +1,10 @@
 # maintainer: Hyoungchul Kim
-# date: 2025-09-01
-# purpose: estimate linear model
+# date: 2025-09-04
+# purpose: estimate linear model and ppml
 
 if (!require(pacman)) install.packages("pacman")
 pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, argparse, yaml)
 
-# set working directory
-# here::i_am("src/R/03_est_linear_model.R")
 
 parser <- ArgumentParser()
 parser$add_argument("--input", type = "character")

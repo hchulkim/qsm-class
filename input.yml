@@ -1,0 +1,9 @@
+lodes:
+  main: "pa_od_main_JT00_2022.csv.gz"
+  geo: "pa_xwalk.csv.gz"
+tract_tract:
+  main: "philly_od_tract_tract_2022.csv.gz"
+distance:
+  original: "philly_od_tract_tract_2022_with_distance.csv.gz"
+  solution1: "philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz"
+  solution2: "philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz"

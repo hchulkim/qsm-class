@@ -3,16 +3,23 @@
 # purpose: clean raw data
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils)
+pacman::p_load(here, data.table, R.utils, argparse, yaml)
 
 # set working directory
-here::i_am("src/R/01_clean_raw_data.R")
+# here::i_am("src/R/01_clean_raw_data.R")
+
+parser <- ArgumentParser()
+parser$add_argument("--input", type = "character")
+args <- parser$parse_args()
+
+# read yaml
+input_yaml <- yaml.load_file(args$input)
 
 # load main data and geography crosswalk
-data <- fread(here("input", "pa_od_main_JT00_2022.csv.gz"),
+data <- fread(here("input", input_yaml$lodes$main),
     colClasses = list(character = c("w_geocode", "h_geocode"))
 )
-geography_walk <- fread(here("input", "pa_xwalk.csv.gz"),
+geography_walk <- fread(here("input", input_yaml$lodes$geo),
     colClasses = list(character = c("tabblk2020"))
 )
 

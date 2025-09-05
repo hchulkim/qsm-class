@@ -94,6 +94,16 @@ The estimation results are reported in the following table (I also retained the 
 
 We can clearly see that the etimates of the semi-elasticity of the distance differs from the estimates in the previous question. The absolute size of the estimates is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimates in the linear model were underestimating the effect of the travel-time cost on the commuting flow. 
 
+# Q5 {.unnumbered}
+
+1. For $ii$ pairs, we could add minimum distance from the centroid to the edge of the polygon geometry as the distance measure. While this is not a perfect measure, it still should work as a proxy for measuring the relative size of certain distance from traveling within the same tract. This also solves the zero distance issue. The only problem might be that this method could be bit ad-hoc and not consistent as we are just additional additional values only onto the $ii$ pairs and not consider the $ij$ pairs.
+
+Using this method, I get the following estimates for linear and PPML models:
+
+2. Another way would be to change the definition of the distance measure so that $ii$ pairs will not have zero values. For example, we re-define the distance between two polygons $A$ and $B$ as follows: distance from the centroid of $A$ to the centroid of $B$ plus the minimum distance from the centroid of $A$ to the edge of the polygon $A$ plut the minimum distance from the centroid of $B$ to the edge of the polygon $B$. With this new definition, $ii$ pairs will no longer have zero values since we would be using diameter of the polygon as the distance measure. 
+
+Using this method, I get the following estimates for linear and PPML models:
+
 \clearpage
 
 ## Introduction {#sec-intro}
