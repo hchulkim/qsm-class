@@ -2,7 +2,7 @@ FROM hchulkim/r_4.5.1:master-e8ada17073138a2f323b2a7e80f0c51eac1f438e
 
 # Restore via lockfile first for better caching
 COPY renv.lock renv.lock
-RUN R -e "options(configure.args=\"--disable-pkg-config\"); renv::consent(provided=TRUE); renv::restore(prompt=FALSE)"
+RUN R -e "renv::consent(provided=TRUE); renv::restore(prompt=FALSE)"
 
 # Install Julia 1.11.6
 ENV JULIA_VERSION=1.11.6
