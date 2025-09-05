@@ -30,7 +30,7 @@ bibliography: bibliography.bib
 
 # Use of programming language {#sec-use-of-programming-language}
 
-For questions 1-6, I used `R` programming language. For other questions, I used `julia` programming language.
+For questions 1-6, I used `R` programming language. I also used `R` for most of the data cleaning and manipulation. For other questions that requires more computational intensive analyses (modeling, etc.), I used `julia` programming language.
 
 # Main data information {#sec-main-data-info}
 
@@ -104,67 +104,6 @@ Using this method, I get the following estimates for linear and PPML models:
 
 Using this method, I get the following estimates for linear and PPML models:
 
-\clearpage
-
-## Introduction {#sec-intro}
-
-I will show some examples of things you can easily do in quarto-format.
-
-### Math
-
-You can easily use latex math format in quarto.
-
-This is in-line math: $x + y = 7$.
-
-This is display-style math:
-$$x + y = 7.$$
-
-You can also use begin align style syntax:
-\begin{align}
-  x + y &= 7\label{eq:1}\\
-  t + v &= 10.\label{eq:2}
-\end{align}
-
-This is equation \ref{eq:1}. This is equation \ref{eq:2}.
-
-### Figures
-
-Putting figures is easy in quarto. Use syntax like this:
-
-
-## Related literature {#sec-lit}
-
-Some citation example.
-
-@schott: The famous international trade PNTR paper.
-
-@berlin: Another famous paper in urban/spatial economics.
-
-You can also put them inside the paranthesis: [@schott; @berlin].
-
-Also, you can cite sections: @sec-lit.
-
-## Methods {#sec-meth}
-
-Some few rounds of Lorem ipsums to give you a sense of the format:
-
-Lorem ipsum. Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
-
-Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
-
-Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.Lorem ipsum.
-
-## Results {#sec-result}
-
-I am not sure you would need this, but in quarto, you can directly type codes and get their outputs (I know it's not pretty... You can customize it later if you want though):
-
-```{r}
-
-attitude |> head()
-
-```
-
-## Conclusion {#sec-conc}
 
 ## References {.unnumbered}
 
@@ -173,12 +112,5 @@ attitude |> head()
 
 ## Appendix {.supplementary}
 
-`{.supplementary}` works as an indicator that makes the section centered. Useful when starting an appendix or supplementary sections.
-
 ### Appendix A {.unnumbered}
 
-Use `{.unnumbered}` to unnumber the section and give your own numbering.
-
-### Appendix B {.unnumbered}
-
-## Supplementary {.supplementary}
