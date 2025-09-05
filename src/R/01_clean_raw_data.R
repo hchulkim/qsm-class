@@ -32,12 +32,17 @@ setnames(data, c("st", "stusps", "stname", "cty", "ctyname", "trct", "trctname",
 data <- merge(data, geography_walk[, .(tabblk2020, st, stusps, stname, cty, ctyname, trct, trctname, blklatdd, blklondd)], by.x = "h_geocode", by.y = "tabblk2020", all.x = TRUE)
 setnames(data, c("st", "stusps", "stname", "cty", "ctyname", "trct", "trctname", "blklatdd", "blklondd"), c("h_state", "h_state_abbr", "h_state_name", "h_county", "h_county_name", "h_tract", "h_tract_name", "h_block_lat", "h_block_lon"))
 
+# print(nrow(data))
+# print(nrow(unique(data[, .(w_tract, h_tract)])))
+
 # only keep philadelphia county
 data <- data[w_county == 42101 & h_county == 42101]
+#nrow(unique(data[, .(w_tract, h_tract)]))
 
 # aggregate the data by tract-tract level
 data <- data[, lapply(.SD, sum, na.rm = TRUE), by = .(w_tract, w_tract_name, h_tract, h_tract_name, w_county, h_county), .SDcols = patterns("^S")]
+# print(nrow(unique(data[, .(w_tract, h_tract)])))
 
 
 # save data
-fwrite(data, here("input", "temp", "philly_od_tract_tract_2022.csv.gz"))
+ fwrite(data, here("input", "temp", "philly_od_tract_tract_2022.csv.gz"))
