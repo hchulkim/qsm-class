@@ -6,7 +6,7 @@ RUN R -e 'install.packages("stringi", type="source", configure.vars="ICU_BUNDLE=
 
 # Restore via lockfile first for better caching
 COPY renv.lock renv.lock
-RUN R -e "renv::consent(provided=TRUE); renv::restore(prompt=FALSE)"
+RUN R -e 'renv::consent(provided=TRUE); renv::restore(prompt=FALSE, rebuild=c("stringi", "sf"))'
 
 # Install Julia 1.11.6
 ENV JULIA_VERSION=1.11.6
