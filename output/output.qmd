@@ -114,6 +114,8 @@ My code in `src/R/07_create_market_access.R` creates the market access variable.
 
 I use two scripts to accomplish this. For data manipulation stage I use `src/R/08_fixed_point_algorithm.R` to create the sum of bilateral commuting flow and the expotential terms. For implementing fixed point algorithm, I use `src/julia/08_fixed_point_algorithm.jl`.
 
+\clearpage
+
 ## References {.unnumbered}
 
 ::: {#refs}
