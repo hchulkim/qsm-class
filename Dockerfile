@@ -11,6 +11,7 @@ RUN R -e 'renv::consent(provided=TRUE); renv::restore(prompt=FALSE, rebuild=c("s
 # Install Julia 1.11.6
 ENV JULIA_VERSION=1.11.6
 RUN /rocker_scripts/install_julia.sh
+RUN julia -e "import Pkg; Pkg.add(\"DrWatson\")"
 
 # Install Julia packages and manage dependencies
 COPY Manifest.toml Project.toml .

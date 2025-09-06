@@ -100,17 +100,37 @@ We can clearly see that the etimates of the semi-elasticity of the distance diff
 
 Using this method, I get the following estimates for linear and PPML models:
 
-2. Another way would be to change the definition of the distance measure so that $ii$ pairs will not have zero values. For example, we re-define the distance between two polygons $A$ and $B$ as follows: distance from the centroid of $A$ to the centroid of $B$ plus the minimum distance from the centroid of $A$ to the edge of the polygon $A$ plut the minimum distance from the centroid of $B$ to the edge of the polygon $B$. With this new definition, $ii$ pairs will no longer have zero values since we would be using diameter of the polygon as the distance measure. 
+2. Another way would be to change the definition of the distance measure so that $ii$ pairs will not have zero values. We leverage the fact that our data can become more granular. That is, we have information on the longitude and latitude of the centroid of the census block. After calculating the distance between two centroids of the census blocks, we can use mean of the all the block-level distances within the same tract-tract pair as the distance measure of the tract-tract pairs. This will give us non-zero distance for $ii$ pairs.
 
 Using this method, I get the following estimates for linear and PPML models:
 
+# Q6 {.unnumbered}
+
+# Q7 {.unnumbered}
+
+My code in `src/R/07_create_market_access.R` creates the market access variable. For each residential and workplace tract, I calculate the market access variable using the definition in the question. I posted the result in the Appendix.
+
+# Q8 {.unnumbered}
+
+I use two scripts to accomplish this. For data manipulation stage I use `src/R/08_fixed_point_algorithm.R` to create the sum of bilateral commuting flow and the expotential terms. For implementing fixed point algorithm, I use `src/julia/08_fixed_point_algorithm.jl`.
 
 ## References {.unnumbered}
 
 ::: {#refs}
 :::
 
+\clearpage
+
 ## Appendix {.supplementary}
 
-### Appendix A {.unnumbered}
+### A. Residential market access {.unnumbered}
+
+\input{tables/residential_market_access.tex}
+
+\clearpage
+
+### B.Workplace market access {.unnumbered}
+
+\input{tables/workplace_market_access.tex}
+
 

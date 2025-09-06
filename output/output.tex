@@ -184,7 +184,7 @@
 
 \title{Coding assignment (QSM class)}
 \author{Hyoungchul Kim}
-\date{September 4, 2025}
+\date{September 6, 2025}
 \begin{document}
 \def\spacingset#1{\renewcommand{\baselinestretch}%
 {#1}\small\normalsize} \spacingset{1}
@@ -193,7 +193,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \date{\href{https://hchulkim.github.io}{Link to Latest version}\\ \vspace{1em}  Last updated September
-4, 2025}
+6, 2025}
 \title{Coding assignment (QSM class)\thanks{Some footnotes on the
 title\ldots{}}}
 \author{
@@ -356,24 +356,36 @@ models:
 \tightlist
 \item
   Another way would be to change the definition of the distance measure
-  so that \(ii\) pairs will not have zero values. For example, we
-  re-define the distance between two polygons \(A\) and \(B\) as
-  follows: distance from the centroid of \(A\) to the centroid of \(B\)
-  plus the minimum distance from the centroid of \(A\) to the edge of
-  the polygon \(A\) plut the minimum distance from the centroid of \(B\)
-  to the edge of the polygon \(B\). With this new definition, \(ii\)
-  pairs will no longer have zero values since we would be using diameter
-  of the polygon as the distance measure.
+  so that \(ii\) pairs will not have zero values. We leverage the fact
+  that our data can become more granular. That is, we have information
+  on the longitude and latitude of the centroid of the census block.
+  After calculating the distance between two centroids of the census
+  blocks, we can use mean of the all the block-level distances within
+  the same tract-tract pair as the distance measure of the tract-tract
+  pairs. This will give us non-zero distance for \(ii\) pairs.
 \end{enumerate}
 
 Using this method, I get the following estimates for linear and PPML
 models:
+
+\section*{Q6}\label{q6}
+\addcontentsline{toc}{section}{Q6}
+
+\section*{Q7}\label{q7}
+\addcontentsline{toc}{section}{Q7}
+
+My code in \texttt{src/R/07\_create\_market\_access.R} creates the
+market access variable. For each residential and workplace tract, I
+calculate the market access variable using the definition in the
+question. I posted the result in the Appendix.
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}
 
 \renewcommand{\bibsection}{}
 \bibliography{bibliography.bib}
+
+\clearpage
 
 \phantomsection\label{appendix}
 \bigskip
@@ -384,8 +396,19 @@ models:
 
 \end{center}
 
-\subsubsection*{Appendix A}\label{appendix-a}
-\addcontentsline{toc}{subsubsection}{Appendix A}
+\subsubsection*{A. Residential market
+access}\label{a.-residential-market-access}
+\addcontentsline{toc}{subsubsection}{A. Residential market access}
+
+\input{tables/residential_market_access.tex}
+
+\clearpage
+
+\subsubsection*{B.Workplace market
+access}\label{b.workplace-market-access}
+\addcontentsline{toc}{subsubsection}{B.Workplace market access}
+
+\input{tables/workplace_market_access.tex}
 
 
 

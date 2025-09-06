@@ -1,19 +1,22 @@
 # maintainer: Hyoungchul Kim
-# date: 2025-09-01
-# purpose: estimate ppml model
+# date: 2025-09-06
+# purpose: create market access variable using fixed point algorithm
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, tigris, sf, argparse, yaml)
+pacman::p_load(here, data.table, R.utils, argparse, yaml, sf, tigris, kableExtra)
 
-# set working directory
-# here::i_am("src/R/04_est_ppml.R")
 
 parser <- ArgumentParser()
 parser$add_argument("--input", type = "character")
 args <- parser$parse_args()
 
 # read yaml
-input_yaml <- yaml.load_file(args$input)
+input_yaml <- read_yaml(args$input)
+# input_yaml <- read_yaml(here("input.yml"))
+
+# load the data
+ek <- fread(here("input", "temp", input_yaml$market_access$ek))[, estimate]
+
 
 # load the cleaned data
 data <- fread(here("input", "temp", input_yaml$tract_tract$main),
@@ -54,39 +57,16 @@ full_data <- merge(full_data, data, by.x = c("w_tract", "h_tract"), by.y = c("w_
 # set flow 0 if na
 full_data[is.na(flow_all), flow_all := 0]
 
-# do PPML
-res <- fepois(flow_all ~ distance_km | w_tract + h_tract, data = full_data)
+# N_Ri
+nRi <- full_data[, .(nri = sum(flow_all, na.rm = TRUE)), by = h_tract]
 
-ek <- tidy(res)
+# N_Wj
+nWj <- full_data[, .(nwj = sum(flow_all, na.rm = TRUE)), by = w_tract]
 
-fwrite(ek, here("input", "temp", "ek_estimate.csv"))
+# exp(-ekd)
+ekd <- full_data[, .(w_tract, h_tract, exp_term = exp(ek * distance_km))]
 
-# download the regression table tex file
-texreg(res,
-    custom.model.names = c("PPML"),
-    use.packages = FALSE,
-    table = FALSE,
-    include.ci = FALSE,
-    include.rmse = FALSE,
-    include.adjrs = FALSE,
-    include.loglik = FALSE,
-    include.deviance = FALSE,
-    file = here("output", "tables", "q4_ppml.tex")
-)
+data_julia <- merge(ekd, nRi, by.x = "h_tract", by.y = "h_tract", all.x = TRUE)
+data_julia <- merge(data_julia, nWj, by.x = "w_tract", by.y = "w_tract", all.x = TRUE)
 
-# get the fixed effects
-fe <- fixef(res)
-
-# create the data table for the fixed effects
-dt <- rbindlist(
-    lapply(names(fe), function(nm) {
-        data.table(
-            tract = names(fe[[nm]]), # use names as the join key
-            var   = nm,
-            value = as.numeric(fe[[nm]])
-        )
-    })
-)
-
-# also download the estimates table tex file for FEs
-fwrite(dt, here("input", "q4_ppml_fes.csv"))
+fwrite(data_julia, here("input", "temp", "data_julia.csv"))

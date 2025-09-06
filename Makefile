@@ -12,9 +12,10 @@ tabsdir = output/tables/
 papdir = output/paper/
 slidsdir = output/slides/
 rdir = src/R/
+jdir = src/julia/
 
 ## Headline build
-all: question1_6
+all: question1_8_r question_8_10_julia
 
 ## Draw the Makefile DAG
 ## Requires: https://github.com/lindenb/makefile2graph
@@ -22,7 +23,10 @@ dag: makefile-dag.png
 makefile-dag.png: Makefile
 	make -Bnd all | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
 
-question1_6: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv $(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz
+
+# Question 1-8 R
+
+question1_8_r: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv $(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz $(tabsdir)q5_linear_model_solution1.tex $(inputdir)q5_linear_model_fes_solution1.csv $(tabsdir)q5_linear_model_solution2.tex $(inputdir)q5_linear_model_fes_solution2.csv $(inputdir)temp/ek_estimate.csv $(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz $(inputdir)temp/data_julia.csv
 
 $(inputdir)temp/philly_od_tract_tract_2022.csv.gz: $(inputdir)pa_od_main_JT00_2022.csv.gz $(rdir)01_clean_raw_data.R
 	Rscript $(rdir)01_clean_raw_data.R \
@@ -36,13 +40,34 @@ $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv &: $(inputdir)t
 	Rscript $(rdir)03_est_linear_model.R \
 	 --input input.yml
 
-$(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(rdir)04_est_ppml.R
+$(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/ek_estimate.csv &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(rdir)04_est_ppml.R
 	Rscript $(rdir)04_est_ppml.R \
 	 --input input.yml
 
 $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz &: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(rdir)05_calculate_distance_ii.R
 	Rscript $(rdir)05_calculate_distance_ii.R \
 	 --input input.yml
+
+$(tabsdir)q5_linear_model_solution1.tex $(inputdir)q5_linear_model_fes_solution1.csv $(tabsdir)q5_linear_model_solution2.tex $(inputdir)q5_linear_model_fes_solution2.csv &: $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz $(rdir)06_linear_ppml.R
+	Rscript $(rdir)06_linear_ppml.R \
+	 --input input.yml
+
+$(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(inputdir)temp/ek_estimate.csv $(rdir)07_create_market_access.R
+	Rscript $(rdir)07_create_market_access.R \
+	 --input input.yml
+
+$(inputdir)temp/data_julia.csv &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(inputdir)temp/ek_estimate.csv $(rdir)08_fixed_point_algorithm.R
+	Rscript $(rdir)08_fixed_point_algorithm.R \
+	 --input input.yml
+
+# Question 8-10 Julia
+question_8_10_julia: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv
+
+$(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv &: $(inputdir)temp/data_julia.csv $(jdir)08_fixed_point_algorithm.jl
+	julia $(jdir)08_fixed_point_algorithm.jl
+
+
+# reading raw data
 
 raw: $(inputdir)pa_od_main_JT05_2020.csv.gz $(inputdir)pa_od_main_JT05_2021.csv.gz $(inputdir)pa_od_main_JT05_2022.csv.gz
 
@@ -64,4 +89,4 @@ clean:
 	rm -f $(inputdir)temp/* $(figsdir)* $(tabsdir)*
 	
 ## Helpers
-.PHONY: all clean raw question1_6
+.PHONY: all clean raw question1_8_r question_8_10_julia

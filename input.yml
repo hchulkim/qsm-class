@@ -7,3 +7,6 @@ distance:
   original: "philly_od_tract_tract_2022_with_distance.csv.gz"
   solution1: "philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz"
   solution2: "philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz"
+market_access:
+  ek: "ek_estimate.csv"
+  fixef: "q4_ppml_fes.csv"

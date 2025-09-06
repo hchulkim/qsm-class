@@ -6,7 +6,7 @@ if (!require(pacman)) install.packages("pacman")
 pacman::p_load(here, data.table, R.utils, tigris, sf, dplyr, argparse, yaml)
 
 # set working directory
-#here::i_am("src/R/05_calculate_distance_ii.R")
+# here::i_am("src/R/05_calculate_distance_ii.R")
 
 parser <- ArgumentParser()
 parser$add_argument("--input", type = "character")
@@ -89,27 +89,44 @@ fwrite(data_with_distance, here("input", "temp", "philly_od_tract_tract_2022_wit
 
 
 # second solution
-ii_pairs[, distance_km := distance_meters / 1000]
 
-ii_pairs <- ii_pairs[h_tract == w_tract]
+# load the cleaned data
+data <- fread(here("input", "temp", input_yaml$tract_tract$main),
+    colClasses = list(character = c("h_tract", "w_tract"))
+)
 
+# load the census blocks
+blocks <- tigris::blocks(state = "PA", county = "Philadelphia", year = 2020)
+
+# Calculate all pairwise distances between tracts (centroid to centroid)
+distance_matrix <- st_distance(st_centroid(blocks), st_centroid(blocks))
+
+# Convert to data.table for easier merging
+blocks_ids <- blocks$GEOID20
+distance_dt <- data.table(
+    origin_block = rep(blocks_ids, each = length(blocks_ids)),
+    destination_block = rep(blocks_ids, length(blocks_ids)),
+    distance_meters = as.numeric(distance_matrix)
+)
+
+distance_dt[, `:=`(origin_tract = substr(origin_block, 1, 11), destination_tract = substr(destination_block, 1, 11))]
+
+distance_dt <- distance_dt[, .(distance_meters = mean(distance_meters, na.rm = TRUE)), by = .(origin_tract, destination_tract)]
+
+# Merge with your bilateral data
 data_with_distance <- merge(
-    data_with_distance,
-    ii_pairs[, .(h_tract, h_distance_km = distance_km)],
-    by.x = c("h_tract"),
-    by.y = c("h_tract"),
+    data,
+    distance_dt,
+    by.x = c("h_tract", "w_tract"),
+    by.y = c("origin_tract", "destination_tract"),
     all.x = TRUE
 )
 
-data_with_distance <- merge(
-    data_with_distance,
-    ii_pairs[, .(w_tract, w_distance_km = distance_km)],
-    by.x = c("w_tract"),
-    by.y = c("w_tract"),
-    all.x = TRUE
-)
+# Convert distance to kilometers
+data_with_distance[, distance_km := distance_meters / 1000]
 
-data_with_distance[w_tract != h_tract, distance_km := distance_km + h_distance_km + w_distance_km]
+
+
 
 # save data
 fwrite(data_with_distance, here("input", "temp", "philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz"))

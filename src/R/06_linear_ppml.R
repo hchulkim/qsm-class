@@ -69,13 +69,13 @@ linear_model(data2, "solution2")
 
 # ppml estimation
 
-# load the census tracts
-tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020)
+# # load the census tracts
+# tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020)
 
-full_data <- expand.grid(
-    w_tract = tracts$GEOID,
-    h_tract = tracts$GEOID
-)
+# full_data <- expand.grid(
+#     w_tract = tracts$GEOID,
+#     h_tract = tracts$GEOID
+# )
 
 
 
