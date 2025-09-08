@@ -38,13 +38,13 @@ work_map <- tracts |>
 ggplot(res_map) +
     geom_sf(aes(fill = ΦR)) +
     scale_fill_viridis_c() +
-    labs(fill = "Residential market access", title = "Residential market access") +
+    labs(fill = "Residential market access") +
     theme_void()
 ggsave(here("output", "figures", "residential_market_access_fixed_point.png"), width = 10, height = 10)
 
 ggplot(work_map) +
     geom_sf(aes(fill = ΦW)) +
     scale_fill_viridis_c() +
-    labs(fill = "Workplace market access", title = "Workplace market access") +
+    labs(fill = "Workplace market access") +
     theme_void()
 ggsave(here("output", "figures", "workplace_market_access_fixed_point.png"), width = 10, height = 10)

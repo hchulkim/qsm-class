@@ -264,7 +264,7 @@ the fixed effects estimates in the Appendix.
 I estimated the following linear model:
 
 \[
-\log(N_{ij}) = \theta_{i} + \lambda_{j} + \kappa d_{ij} + \varepsilon_{ij}\label{eq:distance}
+\log(N_{ij}) = \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:distance}
 \]
 
 The estimation results are reported in the following table:
@@ -297,7 +297,7 @@ After including all the \(ij\) pairs and adding in zero commuting flows,
 I estimated the PPML model as follows:
 
 \[
-\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} + \kappa d_{ij}\label{eq:ppml}
+\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:ppml}
 \]
 
 The estimation results are reported in the following table (I also
@@ -367,6 +367,8 @@ models:
 \section*{Q6}\label{q6}
 \addcontentsline{toc}{section}{Q6}
 
+\clearpage
+
 \section*{Q7}\label{q7}
 \addcontentsline{toc}{section}{Q7}
 
@@ -376,8 +378,44 @@ calculate the market access variable using the definition in the
 question. I posted the result in the Appendix. In the main document, I
 will plot the map of the market access variable.
 
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
 \pandocbounded{\includegraphics[keepaspectratio]{figures/residential_market_access.png}}
+
+}
+
+\subcaption{\label{fig-residential-market-access}Map of the residential
+market access}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
 \pandocbounded{\includegraphics[keepaspectratio]{figures/workplace_market_access.png}}
+
+}
+
+\subcaption{\label{fig-workplace-market-access}Map of the workplace
+market access}
+
+\end{minipage}%
+
+\end{figure}%
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of
+the market access variable. The color represents the market access
+variable. The lighter the color, the higher the market access. The
+values are normalized (z-score) to be between 0 and 1.
+
+\normalsize
+
+\clearpage
 
 \section*{Q8}\label{q8}
 \addcontentsline{toc}{section}{Q8}
@@ -388,8 +426,53 @@ bilateral commuting flow and the expotential terms. For implementing
 fixed point algorithm, I use
 \texttt{src/julia/08\_fixed\_point\_algorithm.jl}.
 
+I plot the map of the market access again below:
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/residential_market_access_fixed_point.png}}
+
+}
+
+\subcaption{\label{fig-residential-market-access-fixed-point}Map of the
+residential market access}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/workplace_market_access_fixed_point.png}}
+
+}
+
+\subcaption{\label{fig-workplace-market-access-fixed-point}Map of the
+workplace market access}
+
+\end{minipage}%
+
+\end{figure}%
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of
+the market access variable. The color represents the market access
+variable. The lighter the color, the higher the market access. The
+values are normalized (z-score) to be between 0 and 1.
+
+\normalsize
+
 \section*{Q9}\label{q9}
 \addcontentsline{toc}{section}{Q9}
+
+While the level of the market access variable differs, the overall
+distribution of the market access variable is similar. That is, the
+ordinality of the market access variable is preserved for both cases.
+This result is consistent with the derivation of the market access
+equation from the economic theory.
 
 \section*{Q10}\label{q10}
 \addcontentsline{toc}{section}{Q10}

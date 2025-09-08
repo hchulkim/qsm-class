@@ -51,7 +51,7 @@ For distance, I will use the distance between the centroids of the origin and de
 I estimated the following linear model:
 
 $$
-\log(N_{ij}) = \theta_{i} + \lambda_{j} + \kappa d_{ij} + \varepsilon_{ij}\label{eq:distance}
+\log(N_{ij}) = \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:distance}
 $$
 
 The estimation results are reported in the following table:
@@ -75,7 +75,7 @@ You can see that the estimates of the semi-elasticity of the travel time (or dis
 After including all the $ij$ pairs and adding in zero commuting flows, I estimated the PPML model as follows:
 
 $$
-\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} + \kappa d_{ij}\label{eq:ppml}
+\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:ppml}
 $$
 
 The estimation results are reported in the following table (I also retained the fixed effects estimates in the Appendix):
@@ -104,12 +104,26 @@ Using this method, I get the following estimates for linear and PPML models:
 
 # Q6 {.unnumbered}
 
+\clearpage
+
 # Q7 {.unnumbered}
 
 My code in `src/R/07_create_market_access.R` creates the market access variable. For each residential and workplace tract, I calculate the market access variable using the definition in the question. I posted the result in the Appendix. In the main document, I will plot the map of the market access variable.
 
-![Map of the residential market access](figures/residential_market_access.png)
-![Map of the workplace market access](figures/workplace_market_access.png)
+::: {#fig-market-access layout-ncol=2 layout="[50, 50]"}
+
+![Map of the residential market access](figures/residential_market_access.png){#fig-residential-market-access}
+
+![Map of the workplace market access](figures/workplace_market_access.png){#fig-workplace-market-access}
+
+:::
+
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score) to be between 0 and 1.
+
+\normalsize
+
+\clearpage
 
 # Q8 {.unnumbered}
 
@@ -117,7 +131,22 @@ I use two scripts to accomplish this. For data manipulation stage I use `src/R/0
 
 I plot the map of the market access again below:
 
+
+::: {#fig-market-access-fixed-point layout-ncol=2 layout="[50, 50]"}
+
+![Map of the residential market access](figures/residential_market_access_fixed_point.png){#fig-residential-market-access-fixed-point}
+
+![Map of the workplace market access](figures/workplace_market_access_fixed_point.png){#fig-workplace-market-access-fixed-point}
+
+:::
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score) to be between 0 and 1.
+
+\normalsize
+
 # Q9 {.unnumbered}
+
+While the level of the market access variable differs, the overall distribution of the market access variable is similar. That is, the ordinality of the market access variable is preserved for both cases. This result is consistent with the derivation of the market access equation from the economic theory.
 
 # Q10 {.unnumbered}
 
