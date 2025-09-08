@@ -3,7 +3,7 @@
 # purpose: create market access variable
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils, argparse, yaml, sf, tigris, stringr, kableExtra)
+pacman::p_load(here, data.table, R.utils, argparse, yaml, sf, tigris, stringr, kableExtra, ggplot2, dplyr)
 
 
 parser <- ArgumentParser()
@@ -97,3 +97,31 @@ work_market_access |>
 # save the data
 fwrite(res_market_access, here("input", "temp", "residential_market_access.csv.gz"))
 fwrite(work_market_access, here("input", "temp", "workplace_market_access.csv.gz"))
+
+# map the market access onto the map of philadelphia county
+tracts <- tracts |>
+    select(GEOID, geometry) |>
+    mutate(tract = as.character(GEOID))
+
+res_map <- tracts |>
+    left_join(res_market_access, by = c("tract" = "h_tract")) |>
+    mutate(res_ma = as.numeric(scale(res_ma)))
+
+work_map <- tracts |>
+    left_join(work_market_access, by = c("tract" = "w_tract")) |>
+    mutate(work_ma = as.numeric(scale(work_ma)))
+
+# plot the map
+ggplot(res_map) +
+    geom_sf(aes(fill = res_ma)) +
+    scale_fill_viridis_c() +
+    labs(fill = "Residential market access", title = "Residential market access") +
+    theme_void()
+ggsave(here("output", "figures", "residential_market_access.png"), width = 10, height = 10)
+
+ggplot(work_map) +
+    geom_sf(aes(fill = work_ma)) +
+    scale_fill_viridis_c() +
+    labs(fill = "Workplace market access", title = "Workplace market access") +
+    theme_void()
+ggsave(here("output", "figures", "workplace_market_access.png"), width = 10, height = 10)

@@ -26,7 +26,7 @@ makefile-dag.png: Makefile
 
 # Question 1-8 R
 
-question1_8_r: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv $(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz $(tabsdir)q5_linear_model_solution1.tex $(inputdir)q5_linear_model_fes_solution1.csv $(tabsdir)q5_linear_model_solution2.tex $(inputdir)q5_linear_model_fes_solution2.csv $(inputdir)temp/ek_estimate.csv $(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz $(inputdir)temp/data_julia.csv
+question1_8_r: $(inputdir)temp/philly_od_tract_tract_2022_with_distance.csv.gz $(tabsdir)q3_linear_model.tex $(inputdir)q3_linear_model_fes.csv $(tabsdir)q4_ppml.tex $(inputdir)q4_ppml_fes.csv $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution1.csv.gz $(inputdir)temp/philly_od_tract_tract_2022_with_distance_ii_solution2.csv.gz $(tabsdir)q5_linear_model_solution1.tex $(inputdir)q5_linear_model_fes_solution1.csv $(tabsdir)q5_linear_model_solution2.tex $(inputdir)q5_linear_model_fes_solution2.csv $(inputdir)temp/ek_estimate.csv $(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png $(inputdir)temp/data_julia.csv
 
 $(inputdir)temp/philly_od_tract_tract_2022.csv.gz: $(inputdir)pa_od_main_JT00_2022.csv.gz $(rdir)01_clean_raw_data.R
 	Rscript $(rdir)01_clean_raw_data.R \
@@ -52,7 +52,7 @@ $(tabsdir)q5_linear_model_solution1.tex $(inputdir)q5_linear_model_fes_solution1
 	Rscript $(rdir)06_linear_ppml.R \
 	 --input input.yml
 
-$(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(inputdir)temp/ek_estimate.csv $(rdir)07_create_market_access.R
+$(inputdir)temp/residential_market_access.csv.gz $(inputdir)temp/workplace_market_access.csv.gz $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png &: $(inputdir)temp/philly_od_tract_tract_2022.csv.gz $(inputdir)temp/ek_estimate.csv $(rdir)07_create_market_access.R
 	Rscript $(rdir)07_create_market_access.R \
 	 --input input.yml
 
