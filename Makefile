@@ -61,10 +61,14 @@ $(inputdir)temp/data_julia.csv &: $(inputdir)temp/philly_od_tract_tract_2022.csv
 	 --input input.yml
 
 # Question 8-10 Julia
-question_8_10_julia: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv
+question_8_10_julia: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv $(figsdir)residential_market_access_fixed_point.png $(figsdir)workplace_market_access_fixed_point.png
 
 $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv &: $(inputdir)temp/data_julia.csv $(jdir)08_fixed_point_algorithm.jl
 	julia $(jdir)08_fixed_point_algorithm.jl
+
+$(figsdir)residential_market_access_fixed_point.png $(figsdir)workplace_market_access_fixed_point.png &: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv $(rdir)08_2_fixed_point_algorithm.R
+	Rscript $(rdir)08_2_fixed_point_algorithm.R \
+	 --input input.yml
 
 
 # reading raw data

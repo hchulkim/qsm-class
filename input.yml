@@ -10,3 +10,6 @@ distance:
 market_access:
   ek: "ek_estimate.csv"
   fixef: "q4_ppml_fes.csv"
+fixed_point:
+  residence: "Residence_df.csv"
+  workplace: "Workplace_df.csv"
