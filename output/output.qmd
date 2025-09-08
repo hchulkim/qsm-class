@@ -23,8 +23,6 @@ date: last-modified
 articleurl: https://hchulkim.github.io
 abstract: |
   This is a coding assignment for the QSM class.
-keywords:
-  - 3 to 6 keywords
 bibliography: bibliography.bib  
 ---
 
@@ -113,6 +111,58 @@ My code in `src/R/07_create_market_access.R` creates the market access variable.
 # Q8 {.unnumbered}
 
 I use two scripts to accomplish this. For data manipulation stage I use `src/R/08_fixed_point_algorithm.R` to create the sum of bilateral commuting flow and the expotential terms. For implementing fixed point algorithm, I use `src/julia/08_fixed_point_algorithm.jl`.
+
+# Q9 {.unnumbered}
+
+# Q10 {.unnumbered}
+
+Following Apppendix F of @brinkman2024, I need to create a fixed point algorithm to solve for the following equation[^2]. (We will assume that there are total $J$ workplace tracts and $I$ residential tracts. While the number of tracts is same, we just use separate indices for them to make it more clear in the equation.):
+
+\begin{align*}
+  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)^{-1}\right]\right] \right)^{-\frac{1}{\epsilon}}
+\end{align*}
+
+[^2]: I tweaked the equation from the paper to make it more clear for the matrix muliplication process I will be using below. 
+
+I use the following matrix multiplication to setup the fixed point algorithm ($\omega = T(\omega)$):
+
+\begin{align*}
+  \underbrace{
+  \begin{bmatrix}
+    \omega_1 \\
+    \omega_2 \\
+    \vdots \\
+    \omega_J
+  \end{bmatrix}}_{J \times 1}
+  = &
+  \overbrace{
+  \begin{bmatrix}
+    \left(\frac{1}{N_{W1}} \cdot N_{R1} \cdot d_{11}^{-\epsilon}\right) & \left(\frac{1}{N_{W1}} \cdot N_{R2} \cdot d_{21}^{-\epsilon}\right) & \ldots & \left(\frac{1}{N_{W1}} \cdot N_{RJ} \cdot d_{J1}^{-\epsilon}\right) \\
+    \left(\frac{1}{N_{W2}} \cdot N_{R1} \cdot d_{12}^{-\epsilon}\right) & \left(\frac{1}{N_{W2}} \cdot N_{R2} \cdot d_{22}^{-\epsilon}\right) & \ldots \\
+    \vdots & \vdots & \ddots \\
+    \left(\frac{1}{N_{WJ}} \cdot N_{R1} \cdot d_{1J}^{-\epsilon}\right) & \left(\frac{1}{N_{WJ}} \cdot N_{R2} \cdot d_{2J}^{-\epsilon}\right) & \ldots & \left(\frac{1}{N_{WJ}} \cdot N_{RJ} \cdot d_{JJ}^{-\epsilon}\right) \\
+  \end{bmatrix}}^{J \times I} \times \\ 
+  &\underbrace{
+  \begin{bmatrix}
+    d_{11}^{-\epsilon} & d_{12}^{-\epsilon} & \ldots & d_{1J}^{-\epsilon} \\
+    d_{21}^{-\epsilon} & d_{22}^{-\epsilon} & \ldots & d_{2J}^{-\epsilon} \\
+    \vdots & \vdots & \ddots \\
+    d_{I1}^{-\epsilon} & d_{I2}^{-\epsilon} & \ldots & d_{IJ}^{-\epsilon} \\
+  \end{bmatrix}}_{I \times J} \times 
+  \underbrace{
+  \begin{bmatrix}
+    \omega_1 \\
+    \omega_2 \\
+    \vdots \\
+    \omega_J
+  \end{bmatrix}}_{J \times 1}
+\end{align*}
+
+For convenience, I did not put the power of the $-\frac{1}{\epsilon}$ in the equation above. Also note that I also did not inverse the rows of the matrix after the multiplication of $I \times J$ and $J \times 1$. I will add them in the fixed point algorithm.
+
+After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of @brinkman2024.
+
+I plot the map of the land rents in the following figure:
 
 \clearpage
 
