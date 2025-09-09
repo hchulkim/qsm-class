@@ -183,7 +183,7 @@
 
 \title{Coding assignment (QSM class)}
 \author{Hyoungchul Kim}
-\date{September 8, 2025}
+\date{September 9, 2025}
 \begin{document}
 \def\spacingset#1{\renewcommand{\baselinestretch}%
 {#1}\small\normalsize} \spacingset{1}
@@ -192,7 +192,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \date{\href{https://hchulkim.github.io}{Link to Latest version}\\ \vspace{1em}  Last updated September
-8, 2025}
+9, 2025}
 \title{Coding assignment (QSM class)\thanks{Some footnotes on the
 title\ldots{}}}
 \author{
@@ -486,7 +486,7 @@ While the number of tracts is same, we just use separate indices for
 them to make it more clear in the equation.):
 
 \begin{align*}
-  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)^{-1}\right]\right] \right)^{-\frac{1}{\epsilon}}
+  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)\right]^{-1}\right] \right)^{-\frac{1}{\epsilon}}
 \end{align*}
 
 I use the following matrix multiplication to setup the fixed point
@@ -536,6 +536,27 @@ and productivities using the equations in the Appendix F of
 \citet{brinkman2024}.
 
 I plot the map of the land rents in the following figure:
+
+\clearpage
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/land_rent.png}}
+
+}
+
+\caption{\label{fig-land-rent}Map of the land rents}
+
+\end{figure}%
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of
+the land rents. The color represents the land rents. The lighter the
+color, the higher the land rents. The values are normalized (z-score) to
+be between 0 and 1.
+
+\normalsize
 
 \clearpage
 

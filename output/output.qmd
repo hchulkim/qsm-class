@@ -153,7 +153,7 @@ While the level of the market access variable differs, the overall distribution 
 Following Apppendix F of @brinkman2024, I need to create a fixed point algorithm to solve for the following equation[^2]. (We will assume that there are total $J$ workplace tracts and $I$ residential tracts. While the number of tracts is same, we just use separate indices for them to make it more clear in the equation.):
 
 \begin{align*}
-  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)^{-1}\right]\right] \right)^{-\frac{1}{\epsilon}}
+  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)\right]^{-1}\right] \right)^{-\frac{1}{\epsilon}}
 \end{align*}
 
 [^2]: I tweaked the equation from the paper to make it more clear for the matrix muliplication process I will be using below. 
@@ -197,6 +197,14 @@ For convenience, I did not put the power of the $-\frac{1}{\epsilon}$ in the equ
 After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of @brinkman2024.
 
 I plot the map of the land rents in the following figure:
+
+\clearpage
+
+![Map of the land rents](figures/land_rent.png){#fig-land-rent}
+
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the land rents. The color represents the land rents. The lighter the color, the higher the land rents. The values are normalized (z-score) to be between 0 and 1.
+
+\normalsize
 
 \clearpage
 
