@@ -23,7 +23,7 @@ exponent(distance_km) = exp.(kappa .* distance_km)
 df = transform(df, :distance_km => exponent => :exponent)
 
 # create a function to calculate the fixed point for wage
-function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract::Symbol=:w_tract, exp_term::Symbol=:exponent, nri::Symbol=:nri, nwj::Symbol=:nwj)
+function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract::Symbol=:w_tract, exponent::Symbol=:exponent, nri::Symbol=:nri, nwj::Symbol=:nwj)
 
 
     # Extract one Nr per residence and one Nw per workplace
@@ -46,30 +46,7 @@ function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract:
 
     for row in eachrow(df)
         i, j = r2i[row[h_tract]], w2j[row[w_tract]]
-        A[i, j] = row[exp_term]
-    end
-    A = A .^ (-epsilon)
-
-    @assert all(.!isnan.(A)) "Some exp_term values are NaN"
-    Wtab = combine(groupby(df, :w_tract), :nwj => first => :nwj)
-
-    # get the unique residence and workplace ids
-    r_ids = collect(Rtab[!, :h_tract])
-    w_ids = collect(Wtab[!, :w_tract])
-    r2i = Dict(r => i for (i, r) in enumerate(r_ids))
-    w2j = Dict(w => j for (j, w) in enumerate(w_ids))
-    NR = collect(Rtab.nri)
-    NW = collect(Wtab.nwj)
-
-    I, J = length(r_ids), length(w_ids)
-
-    # set up I x J matrix for distance
-    A = Matrix{Float64}(undef, I, J)
-    fill!(A, NaN)
-
-    for row in eachrow(df)
-        i, j = r2i[row[:h_tract]], w2j[row[:w_tract]]
-        A[i, j] = row[:exponent]
+        A[i, j] = row[exponent]
     end
     A = A .^ (-epsilon)
 
@@ -80,8 +57,8 @@ function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract:
     fill!(B, NaN)
 
     for row in eachrow(df)
-        i, j = r2i[row[:h_tract]], w2j[row[:w_tract]]
-        B[j, i] = (1 / (row[:nwj])) * row[:nri] * (row[:exponent]^(-epsilon))
+        i, j = r2i[row[h_tract]], w2j[row[w_tract]]
+        B[j, i] = (1 / (row[nwj])) * row[nri] * (row[exponent]^(-epsilon))
     end
     replace!(B, NaN => 0)  # Fill NaN values with 0
 
