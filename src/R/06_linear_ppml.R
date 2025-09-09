@@ -3,7 +3,7 @@
 # purpose: estimate linear model and ppml
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, argparse, yaml, glue)
+pacman::p_load(here, data.table, R.utils, fixest, broom, texreg, tidyfast, argparse, yaml, glue, tigris, dplyr, ggplot2, sf)
 
 
 parser <- ArgumentParser()
@@ -69,70 +69,120 @@ linear_model(data2, "solution2")
 
 # ppml estimation
 
-# # load the census tracts
-# tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020)
 
-# full_data <- expand.grid(
-#     w_tract = tracts$GEOID,
-#     h_tract = tracts$GEOID
-# )
+# load the cleaned data
+data <- fread(here("input", "temp", input_yaml$tract_tract$main),
+    colClasses = list(character = c("h_tract", "w_tract"))
+)
 
+# load the census blocks
+blocks <- tigris::blocks(state = "PA", county = "Philadelphia", year = 2020)
 
+# Calculate all pairwise distances between tracts (centroid to centroid)
+distance_matrix <- st_distance(st_centroid(blocks), st_centroid(blocks))
 
-# # Calculate all pairwise distances between tracts
-# distance_matrix <- st_distance(st_centroid(tracts), st_centroid(tracts))
+# Convert to data.table for easier merging
+blocks_ids <- blocks$GEOID20
+distance_dt <- data.table(
+    origin_block = rep(blocks_ids, each = length(blocks_ids)),
+    destination_block = rep(blocks_ids, length(blocks_ids)),
+    distance_meters = as.numeric(distance_matrix)
+)
 
-# # Convert to data.table for easier merging
-# tract_ids <- tracts$GEOID
-# distance_dt <- data.table(
-#     origin_tract = rep(tract_ids, each = length(tract_ids)),
-#     destination_tract = rep(tract_ids, length(tract_ids)),
-#     distance_meters = as.numeric(distance_matrix)
-# )
+distance_dt[, `:=`(origin_tract = substr(origin_block, 1, 11), destination_tract = substr(destination_block, 1, 11))]
 
-# full_data <- merge(full_data, distance_dt, by.x = c("w_tract", "h_tract"), by.y = c("origin_tract", "destination_tract"), all.x = TRUE) |> as.data.table()
+distance_dt <- distance_dt[, .(distance_meters = mean(distance_meters, na.rm = TRUE)), by = .(origin_tract, destination_tract)]
 
-# # Convert distance to kilometers
-# full_data[, distance_km := distance_meters / 1000]
+# Merge with your bilateral data
+data_with_distance <- merge(
+    distance_dt,
+    data,
+    by.x = c("origin_tract", "destination_tract"),
+    by.y = c("h_tract", "w_tract"),
+    all.x = TRUE
+)
 
-# # rename the all flow variable
-# setnames(data, "S000", "flow_all")
-
-# full_data <- merge(full_data, data, by.x = c("w_tract", "h_tract"), by.y = c("w_tract", "h_tract"), all.x = TRUE)
-
-# # set flow 0 if na
-# full_data[is.na(flow_all), flow_all := 0]
-
-# # do PPML
-# res <- fepois(flow_all ~ distance_km | w_tract + h_tract, data = full_data)
+setnames(data_with_distance, c("origin_tract", "destination_tract"), c("h_tract", "w_tract"))
 
 
-# # download the regression table tex file
-# texreg(res,
-#     custom.model.names = c("PPML"),
-#     use.packages = FALSE,
-#     table = FALSE,
-#     include.ci = FALSE,
-#     include.rmse = FALSE,
-#     include.adjrs = FALSE,
-#     include.loglik = FALSE,
-#     include.deviance = FALSE,
-#     file = here("output", "tables", "q4_ppml.tex")
-# )
+# rename the all flow variable
+setnames(data_with_distance, "S000", "flow_all")
 
-# # get the fixed effects
-# fe <- fixef(res)
+data_with_distance[is.na(flow_all), flow_all := 0]
 
-# # create the data table for the fixed effects
-# dt <- rbindlist(
-#     lapply(names(fe), function(nm) {
-#         data.table(
-#             tract = names(fe[[nm]]), # use names as the join key
-#             var   = nm,
-#             value = as.numeric(fe[[nm]])
-#         )
-#     })
-# )
 
-# # also download the estimates table tex file for FEs
-# fwrite(dt, here("input", "q4_ppml_fes.csv"))
+# Convert distance to kilometers
+data_with_distance[, distance_km := distance_meters / 1000]
+
+# run the ppml model
+res <- fixest::fepois(flow_all ~ distance_km | w_tract + h_tract, data = data_with_distance)
+
+# get the estimates (kept if you need them)
+estimate <- broom::tidy(res)
+
+# get the fixed effects and build a tidy table
+fe <- fixest::fixef(res)
+dt_fe <- rbindlist(
+    lapply(names(fe), function(nm) {
+        data.table(
+            tract = names(fe[[nm]]),
+            var   = nm,
+            value = as.numeric(fe[[nm]])
+        )
+    })
+)
+
+texreg::texreg(
+    res,
+    custom.model.names = c("Poisson regression"),
+    use.packages = FALSE,
+    table = FALSE,
+    include.ci = FALSE,
+    include.rmse = FALSE,
+    include.adjrs = FALSE,
+    file = here("output", "tables", glue("q5_ppml_model.tex"))
+)
+
+fwrite(dt_fe, here("input", "temp", glue("q5_ppml_fes.csv")))
+
+# plot the fes by map
+tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020) |>
+    select(GEOID, geometry) |>
+    mutate(tract = as.character(GEOID))
+
+
+res_market_access <- dt_fe |>
+    filter(var == "h_tract") |>
+    select(tract, value) |>
+    mutate(tract = as.character(tract)) |>
+    rename(h_tract = tract, res_ma = value)
+
+work_market_access <- dt_fe |>
+    filter(var == "w_tract") |>
+    select(tract, value) |>
+    mutate(tract = as.character(tract)) |>
+    rename(w_tract = tract, work_ma = value)
+
+# map the market access onto the map of philadelphia county
+res_map <- tracts |>
+    left_join(res_market_access, by = c("tract" = "h_tract")) |>
+    mutate(res_ma = as.numeric(scale(res_ma)))
+
+work_map <- tracts |>
+    left_join(work_market_access, by = c("tract" = "w_tract")) |>
+    mutate(work_ma = as.numeric(scale(work_ma)))
+
+# plot the map
+ggplot(res_map) +
+    geom_sf(aes(fill = res_ma)) +
+    scale_fill_viridis_c() +
+    labs(fill = "fixed effect parameter") +
+    theme_void()
+ggsave(here("output", "figures", "residential_fe_ppml_q5.png"), width = 10, height = 10)
+
+ggplot(work_map) +
+    geom_sf(aes(fill = work_ma)) +
+    scale_fill_viridis_c() +
+    labs(fill = "fixed effect parameter") +
+    theme_void()
+ggsave(here("output", "figures", "workplace_fe_ppml_q5.png"), width = 10, height = 10)

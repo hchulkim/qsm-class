@@ -13,3 +13,5 @@ market_access:
 fixed_point:
   residence: "Residence_df.csv"
   workplace: "Workplace_df.csv"
+brinkman:
+  wage: "df_brinkman_lin.csv"

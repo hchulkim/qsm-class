@@ -64,7 +64,7 @@ nRi <- full_data[, .(nri = sum(flow_all, na.rm = TRUE)), by = h_tract]
 nWj <- full_data[, .(nwj = sum(flow_all, na.rm = TRUE)), by = w_tract]
 
 # exp(-ekd)
-ekd <- full_data[, .(w_tract, h_tract, exp_term = exp(ek * distance_km))]
+ekd <- full_data[, .(w_tract, h_tract, exp_term = exp(ek * distance_km), distance_km)]
 
 data_julia <- merge(ekd, nRi, by.x = "h_tract", by.y = "h_tract", all.x = TRUE)
 data_julia <- merge(data_julia, nWj, by.x = "w_tract", by.y = "w_tract", all.x = TRUE)
