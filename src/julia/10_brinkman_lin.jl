@@ -17,6 +17,9 @@ beta = 0.9
 df = CSV.read(projectdir("input", "temp", "data_julia.csv"), DataFrame;
     types=Dict("w_tract" => String, "h_tract" => String))
 
+# filter out nwj=0
+df = df[df.nwj.!=0, :]
+
 # We will assume land area is same for all tracts
 
 exponent(distance_km) = exp.(kappa .* distance_km)
@@ -60,7 +63,10 @@ function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract:
         i, j = r2i[row[h_tract]], w2j[row[w_tract]]
         B[j, i] = (1 / (row[nwj])) * row[nri] * (row[exponent]^(-epsilon))
     end
-    replace!(B, NaN => 0)  # Fill NaN values with 0
+
+    # # filter out nan
+    # B = B[.!isnan.(B)]
+    # # replace!(B, NaN => 0)  # Fill NaN values with 0
 
     @assert all(.!isnan.(B)) "Some exp_term values are NaN"
 
@@ -70,11 +76,12 @@ function fixed_point_algorithm(df::DataFrame, h_tract::Symbol=:h_tract, w_tract:
     # Define the fixed point map T
     function T(z)
         omega = max.(view(z, 1:J), eps()) # avoid division by zero
-        tW = (B * (A * omega) .^ (-1)) .^ (-(1 / epsilon))
+        tW = (B * ((A * (omega .^ epsilon)) .^ (-1))) .^ (-(1 / epsilon))
     end
 
     # Initialize with means of NR, NW
-    z0 = fill(mean(NW), J)
+    z0 = fill(1, J)
+
 
     Inputs = z0
     fp_anderson = fixed_point(T, Inputs; Algorithm=:Anderson)

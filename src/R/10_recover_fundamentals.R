@@ -3,7 +3,7 @@
 # purpose: recover the fundamentals using the wage variable
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(here, data.table, R.utils, argparse, yaml, sf, tigris, ggplot2, dplyr)
+pacman::p_load(here, data.table, R.utils, argparse, yaml, sf, tigris, ggplot2, dplyr, scales)
 
 
 parser <- ArgumentParser()
@@ -81,14 +81,19 @@ land_map <- tracts |>
     mutate(land_rent = as.numeric(scale(land_rent)))
 
 
+
+
 # plot the map
-ggplot(land_map) +
+ggplot(land_map |> mutate(land_rent = asinh(land_rent))) +
     geom_sf(aes(fill = land_rent)) +
     scale_fill_viridis_c() +
     labs(fill = "land rent") +
     theme_void()
+# ggplot(land_map) +
+#     geom_sf(aes(fill = land_rent), color = NA) +
+#     scale_fill_gradient(low = "black", "high" = "red", limits = c(-2, 4), oob = squish) +
+#     theme_void()
 ggsave(here("output", "figures", "land_rent.png"), width = 10, height = 10)
-
 
 # recover productivity
 
