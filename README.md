@@ -73,7 +73,7 @@ It is important to set up dependency management for the programming languages we
 
 For this assignment, I use **LEHD LODES** commuting flow data. To be specific, I use `origin-destination` flow data of Philadelphia County for the year 2022 (Version 8). The data is in census block-block level. I also use Geography crosswalk data provided by **LODES**. You can check the source link I use to download the raw data from `Makefile` in the replication package.
 
-## Instructions to Replicators
+## 4. Instructions to Replicators
 
 This section gives instructions to run the replication package. There are two options:
 
