@@ -1,9 +1,7 @@
 FROM hchulkim/r_4.5.1:master-e8ada17073138a2f323b2a7e80f0c51eac1f438e
 
-# System deps
-RUN apt install -y --no-install-recommends \
-  texlive-latex-recommended \
-  libicu-dev
+RUN R -q -e "install.packages('stringi', type='source', repos='https://cloud.r-project.org')"
+RUN R -q -e "install.packages('sf', type='source', repos='https://cloud.r-project.org')"
 
 # Restore via lockfile first for better caching
 COPY renv.lock renv.lock
@@ -34,5 +32,5 @@ RUN mv makefile-dag.png output/
 # Run analysis
 RUN make all
 
-CMD mv /home/project/output/* /home/project/shared_folder/
+CMD cp -r /home/project/output/* /home/project/shared_folder/
 

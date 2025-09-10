@@ -5,7 +5,7 @@ source("renv/activate.R")
 
 ## For Linux and Windows users, we'll use RStudio Package Manager (RSPM).
 if (Sys.info()[["sysname"]] %in% c("Linux", "Windows")) {
-  options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/rhel9/latest"))
+  options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/noble/latest"))
 } else {
   ## For Mac users, we'll default to installing from CRAN/MRAN instead, since
   ## RSPM does not yet support Mac binaries.
@@ -20,3 +20,4 @@ if (Sys.info()[["sysname"]] %in% c("Linux", "Windows")) {
   )
 }
 options(renv.config.repos.override = getOption("repos"))
+
