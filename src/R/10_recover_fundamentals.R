@@ -84,7 +84,8 @@ land_map <- tracts |>
 
 
 # plot the map
-ggplot(land_map |> mutate(land_rent = asinh(land_rent))) +
+ggplot(land_map |>
+    mutate(land_rent = asinh(land_rent))) +
     geom_sf(aes(fill = land_rent)) +
     scale_fill_viridis_c() +
     labs(fill = "land rent") +

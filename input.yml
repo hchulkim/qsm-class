@@ -10,6 +10,13 @@ distance:
 market_access:
   ek: "ek_estimate.csv"
   fixef: "q4_ppml_fes.csv"
+fes:
+  linear_model: "q3_linear_model_fes.csv"
+  ppml: "q4_ppml_fes.csv"
+  linear_model_solution1: "q5_linear_model_fes_solution1.csv"
+  linear_model_solution2: "q5_linear_model_fes_solution2.csv"
+  ppml_solution1: "q5_ppml_fes_solution1.csv"
+  ppml_solution2: "q5_ppml_fes_solution2.csv"
 fixed_point:
   residence: "Residence_df.csv"
   workplace: "Workplace_df.csv"

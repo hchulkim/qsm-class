@@ -11,16 +11,16 @@ format:
     urlcolor: cyan
   aea-html: default
 title-footnote: |
-  Some footnotes on the title...
+  I acknowledge that I worked with Coni, Yuxuan, and Eni. I also acknowledge that I used @chatgpt and @cursor to help me with the coding. They were only used for debugging and auto-completion. Thus, the main structure of the code was all written by the author. All the codes were later reviwed and finalized by the author.
 author-format: horizontal
 author:
   - name: Hyoungchul Kim
     acknowledgements: | 
-      The creator. We want to thank...
+      email: hchulkim@wharton.upenn.edu
     affiliations:
       - name: The Wharton School, University of Pennsylvania
 date: last-modified
-articleurl: https://hchulkim.github.io
+articleurl: https://github.com/hchulkim/qsm-class/blob/main/output/output.pdf
 abstract: |
   This is a coding assignment for the QSM class.
 bibliography: bibliography.bib  
@@ -28,19 +28,19 @@ bibliography: bibliography.bib
 
 # Use of programming language {#sec-use-of-programming-language}
 
-For questions 1-6, I used `R` programming language. I also used `R` for most of the data cleaning and manipulation. For other questions that requires more computational intensive analyses (modeling, etc.), I used `julia` programming language.
+For questions 1-7, I used `R` programming language. I also used `R` for most of the data cleaning and manipulation. For other questions that requires more computational intensive analyses (modeling, etc.), I used `julia` programming language.
 
 # Main data information {#sec-main-data-info}
 
 I am using the 2022 LODES data from LEHD for my analysis. I obtained the raw data for Philadelphia county from the LEHD website and aggregated the data into tract-tract level. The process of cleaning the raw data was conducted using the source code: `src/R/01_clean_raw_data.R`.
 
-Thus my primary analysis zone will be bilateral commuting flow within Philadelphia county for the year 2022. This means I will not be considering the flow where either the origin or the destination is outside of Philadelphia county.
+My primary analysis zone will be bilateral commuting flow within Philadelphia county for the year 2022. This means I will not be considering the flow where either the origin or the destination is outside of Philadelphia county.
 
 ## Q1 {.unnumbered}
 
 As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data from LEHD LODES for the year 2022. I also downloaded supporting data on the locations of the tracts or blocks underlying the the data. I downloaded them in the `input` folder. You can also use `make raw` command to automatically download the raw data.[^1]
 
-[^1]: Note that if you want to re-download the raw data, you must first use `make clean` command to remove the raw data in the `input` folder. Also note that if the original data was updated during the course of the semester, there is a likelihood that the new downloaded data might have different data structure that could affect the analysis.
+[^1]: Note that if you want to re-download the raw data, you must first use `make clean_raw` command to remove the raw data in the `input` folder. Also note that if the original data was updated during the course of the semester, there is a likelihood that the new downloaded data might have different data structure that could affect the analysis.
 
 ## Q2 {.unnumbered}
 
@@ -68,7 +68,7 @@ The estimation results are reported in the following table:
 
 \normalsize
 
-You can see that the estimates of the semi-elasticity of the travel time (or distance) is sensible as it is negative (-0.07). This indicates that the travel time (or distance) has a negative correlation with the commuting flow.
+You can see that the estimates of the semi-elasticity of the travel time (or distance) is sensible as it is negative (-0.07). This indicates that the travel time (or distance) has a negative correlation with the commuting flow. I also retained the estimates of the fixed effects in `input/q3_linear_model_fes.csv`.
 
 # Q4 {.unnumbered}
 
@@ -78,7 +78,7 @@ $$
 \log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:ppml}
 $$
 
-The estimation results are reported in the following table (I also retained the fixed effects estimates in the Appendix):
+The estimation results are reported in the following table (I also retained the fixed effects estimates in the `input/q4_ppml_fes.csv`):
 
 \begin{table}[!ht]
 \centering
@@ -90,7 +90,9 @@ The estimation results are reported in the following table (I also retained the 
 
 \normalsize
 
-We can clearly see that the etimates of the semi-elasticity of the distance differs from the estimates in the previous question. The absolute size of the estimates is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimates in the linear model were underestimating the effect of the travel-time cost on the commuting flow. 
+We can clearly see that the etimates of the semi-elasticity of the distance differs from the estimates in the previous question. The absolute size of the estimates is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimates in the linear model were underestimating the effect of the travel-time cost on the commuting flow. The estimates in the PPML model shifts downward to account for the zero commuting flows. 
+
+Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair.
 
 # Q5 {.unnumbered}
 
@@ -98,9 +100,39 @@ We can clearly see that the etimates of the semi-elasticity of the distance diff
 
 Using this method, I get the following estimates for linear and PPML models:
 
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the linear model for $ii$ pairs}
+\label{tab:est_linear_ii}
+\input{tables/q5_linear_model_solution1.tex}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the PPML model for $ii$ pairs}
+\label{tab:est_ppml_ii}
+\input{tables/q5_ppml_model_solution1.tex}
+\end{table}
+
 2. Another way would be to change the definition of the distance measure so that $ii$ pairs will not have zero values. We leverage the fact that our data can become more granular. That is, we have information on the longitude and latitude of the centroid of the census block. After calculating the distance between two centroids of the census blocks, we can use mean of the all the block-level distances within the same tract-tract pair as the distance measure of the tract-tract pairs. This will give us non-zero distance for $ii$ pairs.
 
 Using this method, I get the following estimates for linear and PPML models:
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the linear model for $ii$ pairs}
+\label{tab:est_linear_ii_2}
+\input{tables/q5_linear_model_solution2.tex}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{Estimation results of the PPML model for $ii$ pairs}
+\label{tab:est_ppml_ii_2}
+\input{tables/q5_ppml_model_solution2.tex}
+\end{table}
+
+You can see that the estimates are very similar to the estimates in the previous question. This suggests that perhaps the zero distance issue is not a major issue in the analysis.
 
 # Q6 {.unnumbered}
 
@@ -119,7 +151,7 @@ My code in `src/R/07_create_market_access.R` creates the market access variable.
 :::
 
 
-\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score) to be between 0 and 1.
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score).
 
 \normalsize
 
@@ -140,13 +172,13 @@ I plot the map of the market access again below:
 
 :::
 
-\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score) to be between 0 and 1.
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score).
 
 \normalsize
 
 # Q9 {.unnumbered}
 
-While the level of the market access variable differs, the overall distribution of the market access variable is similar. That is, the ordinality of the market access variable is preserved for both cases. This result is consistent with the derivation of the market access equation from the economic theory.
+While the level of the market access variable differs, the overall distribution of the market access variable is similar. That is, the ordinality of the market access variable is preserved for both cases. This result is consistent with the derivation of the market access equation we learned in class. To be specific, we discussed in page 21 of the week1-lecture 1 that the equations in Q8 and Q9 are equivalent way to derive market access variable. While the level of the market access variable could differ, the ordinality of the market access variable should be similar.
 
 # Q10 {.unnumbered}
 
@@ -184,27 +216,31 @@ I use the following matrix multiplication to setup the fixed point algorithm ($\
     d_{I1}^{-\epsilon} & d_{I2}^{-\epsilon} & \ldots & d_{IJ}^{-\epsilon} \\
   \end{bmatrix}}_{I \times J} \times 
   \underbrace{
-  \begin{bmatrix}
+  \left(\begin{bmatrix}
     \omega_1 \\
     \omega_2 \\
     \vdots \\
     \omega_J
-  \end{bmatrix}}_{J \times 1}
+  \end{bmatrix}\right)^{\epsilon}}_{J \times 1}
 \end{align*}
 
 For convenience, I did not put the power of the $-\frac{1}{\epsilon}$ in the equation above. Also note that I also did not inverse the rows of the matrix after the multiplication of $I \times J$ and $J \times 1$. I will add them in the fixed point algorithm.
 
 After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of @brinkman2024.
 
-I plot the map of the land rents in the following figure:
+I plot the map of the land rents in the following figure (Note that I z-scored land rents and then used `asinh` transformation to make the map more readable. This is because the land rents are very skewed for certain tracts so raw values for other tracts become indistinguishable in the map):
 
 \clearpage
 
 ![Map of the land rents](figures/land_rent.png){#fig-land-rent}
 
-\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the land rents. The color represents the land rents. The lighter the color, the higher the land rents. The values are normalized (z-score) to be between 0 and 1.
+\footnotesize \textbf{Note}: This is the map (Philadelphia county) of the land rents. The color represents the land rents. The lighter the color, the higher the land rents. The values are normalized (z-score) and then transformed using `asinh` transformation to make the map more readable. The grey areas are tracts which we cannot recover the land rents as there is no flow for them.\vspace{2em}
 
 \normalsize
+
+It is hard to say whether the land rents are reasonable or not but my thoughts are that the results are not doing a good job of accurately recovering the actual land rents. While the results seem to correctly hint that regions near the center of the city have higher land rents, this is also not very accurate as tracts that are more close to the center of the city have lower land rents. According to some anecdotal evidence, the land rents of the center of the city should be the highest and the southern part of Philadelphia also should have a relatively higher land rents. These anecdotal evidence do not seem to be well captured by the results.
+
+I am assuming that this is because of the simplifying assumptions we made. For example, we assumed that the land area is the same for all tracts. This is of course not the accurate depiction of the actual land areas of the tracts in Philadelphia county. Thus, these simplifying assumptions might be leading to a more less accurate results.
 
 \clearpage
 

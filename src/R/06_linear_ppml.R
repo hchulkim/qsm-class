@@ -69,6 +69,106 @@ linear_model(data2, "solution2")
 
 # ppml estimation
 
+# solution 1
+
+# load the cleaned data
+data <- fread(here("input", "temp", input_yaml$tract_tract$main),
+    colClasses = list(character = c("h_tract", "w_tract"))
+)
+
+# load the census tracts
+tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020)
+
+full_data <- expand.grid(
+    w_tract = tracts$GEOID,
+    h_tract = tracts$GEOID
+)
+
+
+
+# Calculate all pairwise distances between tracts
+distance_matrix <- st_distance(st_centroid(tracts), st_centroid(tracts))
+
+# Convert to data.table for easier merging
+tract_ids <- tracts$GEOID
+distance_dt <- data.table(
+    origin_tract = rep(tract_ids, each = length(tract_ids)),
+    destination_tract = rep(tract_ids, length(tract_ids)),
+    distance_meters = as.numeric(distance_matrix)
+)
+
+full_data <- merge(full_data, distance_dt, by.x = c("w_tract", "h_tract"), by.y = c("origin_tract", "destination_tract"), all.x = TRUE) |> as.data.table()
+
+# Convert distance to kilometers
+full_data[, distance_km := distance_meters / 1000]
+
+# rename the all flow variable
+setnames(data, "S000", "flow_all")
+
+full_data <- merge(full_data, data, by.x = c("w_tract", "h_tract"), by.y = c("w_tract", "h_tract"), all.x = TRUE)
+
+# set flow 0 if na
+full_data[is.na(flow_all), flow_all := 0]
+
+# for ii pairs, we will use the minimum distance between the centroid and the polygon edge
+tracts_points <- st_centroid(tracts)
+
+# Calculate distance from each centroid to the boundary of its own polygon
+# We need to get the boundary/edge of each polygon first
+tracts_boundary <- st_boundary(tracts)
+
+# For ii pairs, we only need the diagonal elements (centroid to its own boundary)
+# Calculate distance from each centroid to its own polygon boundary
+distance_ii <- st_distance(tracts_points, tracts_boundary, by_element = TRUE)
+
+# Create a data.table for ii pairs (same tract)
+distance_dt_ii <- data.table(
+    origin_tract = tract_ids,
+    destination_tract = tract_ids,
+    distance_meters = as.numeric(distance_ii) / 1000
+)
+
+full_data <- merge(full_data, distance_dt_ii, by.x = c("w_tract", "h_tract"), by.y = c("origin_tract", "destination_tract"), all.x = TRUE)
+
+full_data[w_tract == h_tract, distance_km := distance_meters.y]
+
+# run the ppml model
+res <- fixest::fepois(flow_all ~ distance_km | w_tract + h_tract, data = full_data)
+
+# get the estimates (kept if you need them)
+estimate <- broom::tidy(res)
+
+# get the fixed effects and build a tidy table
+fe <- fixest::fixef(res)
+dt_fe <- rbindlist(
+    lapply(names(fe), function(nm) {
+        data.table(
+            tract = names(fe[[nm]]),
+            var   = nm,
+            value = as.numeric(fe[[nm]])
+        )
+    })
+)
+
+texreg::texreg(
+    res,
+    custom.model.names = c("Poisson regression"),
+    use.packages = FALSE,
+    table = FALSE,
+    include.ci = FALSE,
+    include.rmse = FALSE,
+    include.adjrs = FALSE,
+    include.loglik = FALSE,
+    include.deviance = FALSE,
+    file = here("output", "tables", glue("q5_ppml_model_solution1.tex"))
+)
+
+fwrite(dt_fe, here("input", "temp", glue("q5_ppml_fes_solution1.csv")))
+
+
+
+
+# solution 2
 
 # load the cleaned data
 data <- fread(here("input", "temp", input_yaml$tract_tract$main),
@@ -140,49 +240,9 @@ texreg::texreg(
     include.ci = FALSE,
     include.rmse = FALSE,
     include.adjrs = FALSE,
-    file = here("output", "tables", glue("q5_ppml_model.tex"))
+    include.loglik = FALSE,
+    include.deviance = FALSE,
+    file = here("output", "tables", glue("q5_ppml_model_solution2.tex"))
 )
 
-fwrite(dt_fe, here("input", "temp", glue("q5_ppml_fes.csv")))
-
-# plot the fes by map
-tracts <- tigris::tracts(state = "PA", county = "Philadelphia", year = 2020) |>
-    select(GEOID, geometry) |>
-    mutate(tract = as.character(GEOID))
-
-
-res_market_access <- dt_fe |>
-    filter(var == "h_tract") |>
-    select(tract, value) |>
-    mutate(tract = as.character(tract)) |>
-    rename(h_tract = tract, res_ma = value)
-
-work_market_access <- dt_fe |>
-    filter(var == "w_tract") |>
-    select(tract, value) |>
-    mutate(tract = as.character(tract)) |>
-    rename(w_tract = tract, work_ma = value)
-
-# map the market access onto the map of philadelphia county
-res_map <- tracts |>
-    left_join(res_market_access, by = c("tract" = "h_tract")) |>
-    mutate(res_ma = as.numeric(scale(res_ma)))
-
-work_map <- tracts |>
-    left_join(work_market_access, by = c("tract" = "w_tract")) |>
-    mutate(work_ma = as.numeric(scale(work_ma)))
-
-# plot the map
-ggplot(res_map) +
-    geom_sf(aes(fill = res_ma)) +
-    scale_fill_viridis_c() +
-    labs(fill = "fixed effect parameter") +
-    theme_void()
-ggsave(here("output", "figures", "residential_fe_ppml_q5.png"), width = 10, height = 10)
-
-ggplot(work_map) +
-    geom_sf(aes(fill = work_ma)) +
-    scale_fill_viridis_c() +
-    labs(fill = "fixed effect parameter") +
-    theme_void()
-ggsave(here("output", "figures", "workplace_fe_ppml_q5.png"), width = 10, height = 10)
+fwrite(dt_fe, here("input", "temp", glue("q5_ppml_fes_solution2.csv")))
