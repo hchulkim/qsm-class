@@ -152,7 +152,7 @@ dt_fe <- rbindlist(
 
 texreg::texreg(
     res,
-    custom.model.names = c("Poisson regression"),
+    custom.model.names = c("PPML"),
     use.packages = FALSE,
     table = FALSE,
     include.ci = FALSE,
@@ -234,7 +234,7 @@ dt_fe <- rbindlist(
 
 texreg::texreg(
     res,
-    custom.model.names = c("Poisson regression"),
+    custom.model.names = c("PPML"),
     use.packages = FALSE,
     table = FALSE,
     include.ci = FALSE,

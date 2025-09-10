@@ -11,7 +11,7 @@ format:
     urlcolor: cyan
   aea-html: default
 title-footnote: |
-  I acknowledge that I worked with Coni, Yuxuan, and Eni. I also acknowledge that I used @chatgpt and @cursor to help me with the coding. They were only used for debugging and auto-completion. Thus, the main structure of the code was all written by the author. All the codes were later reviwed and finalized by the author.
+  I acknowledge that I worked with Coni, Yuxuan, and Eni. I also acknowledge that I used @chatgpt and @cursor to help me with the coding. They were mostly used for debugging and auto-completion. Thus, the main structure of the code was all written by the author. All the codes were later reviwed and finalized by the author.
 author-format: horizontal
 author:
   - name: Hyoungchul Kim
@@ -28,7 +28,7 @@ bibliography: bibliography.bib
 
 # Use of programming language {#sec-use-of-programming-language}
 
-For questions 1-7, I used `R` programming language. I also used `R` for most of the data cleaning and manipulation. For other questions that requires more computational intensive analyses (modeling, etc.), I used `julia` programming language.
+For questions 1-7, I used `R` programming language. I also used `R` for most of the data cleaning and manipulation. For other questions that requires more computationally intensive analyses (modeling, etc.), I used `julia` programming language.
 
 # Main data information {#sec-main-data-info}
 
@@ -38,7 +38,7 @@ My primary analysis zone will be bilateral commuting flow within Philadelphia co
 
 ## Q1 {.unnumbered}
 
-As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data from LEHD LODES for the year 2022. I also downloaded supporting data on the locations of the tracts or blocks underlying the the data. I downloaded them in the `input` folder. You can also use `make raw` command to automatically download the raw data.[^1]
+As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data from LEHD LODES for the year 2022. I also downloaded supporting data on the locations of the tracts or blocks underlying the data. I downloaded them in the `input` folder. You can also use `make raw` command to automatically download the raw data.[^1]
 
 [^1]: Note that if you want to re-download the raw data, you must first use `make clean_raw` command to remove the raw data in the `input` folder. Also note that if the original data was updated during the course of the semester, there is a likelihood that the new downloaded data might have different data structure that could affect the analysis.
 
@@ -64,11 +64,10 @@ The estimation results are reported in the following table:
 \label{tab:est_results}
 \input{tables/q3_linear_model.tex}
 \end{table}
-\footnotesize \textbf{Note}: This table presents estimates results of the equation \ref{eq:distance}. `distance_km` is the estimates of the semi-elasticity of the travel time (or distance). The values in the paranthesis in the table is the standard error.\vspace{3em}
+\footnotesize \textbf{Note}: This table presents estimation result of the equation \ref{eq:distance}. `distance_km` is the estimate of the $-\epsilon\kappa$. The value in the paranthesis is standard error.\vspace{3em}
 
 \normalsize
 
-You can see that the estimates of the semi-elasticity of the travel time (or distance) is sensible as it is negative (-0.07). This indicates that the travel time (or distance) has a negative correlation with the commuting flow. I also retained the estimates of the fixed effects in `input/q3_linear_model_fes.csv`.
 
 # Q4 {.unnumbered}
 
@@ -86,17 +85,17 @@ The estimation results are reported in the following table (I also retained the 
 \label{tab:est_ppml}
 \input{tables/q4_ppml.tex}
 \end{table}
-\footnotesize \textbf{Note}: This table presents estimates results of the equation \ref{eq:ppml}. `distance_km` is the estimates of the semi-elasticity of the travel time (or distance). The values in the paranthesis in the table is the standard error.\vspace{3em}
+\footnotesize \textbf{Note}: This table presents estimation result of the equation \ref{eq:ppml}. `distance_km` is the estimate of the $-\epsilon\kappa$. The value in the paranthesis is standard error.\vspace{3em}
 
 \normalsize
 
-We can clearly see that the etimates of the semi-elasticity of the distance differs from the estimates in the previous question. The absolute size of the estimates is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimates in the linear model were underestimating the effect of the travel-time cost on the commuting flow. The estimates in the PPML model shifts downward to account for the zero commuting flows. 
+We can clearly see that the estimate of the $-\epsilon\kappa$ differs from the estimate in the previous question. The absolute size of the estimate is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimate in the linear model was underestimating the effect of the travel-time cost on the commuting flow. The estimate in the PPML model shifts downward to account for the zero commuting flows. 
 
 Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair.
 
 # Q5 {.unnumbered}
 
-1. For $ii$ pairs, we could add minimum distance from the centroid to the edge of the polygon geometry as the distance measure. While this is not a perfect measure, it still should work as a proxy for measuring the relative size of certain distance from traveling within the same tract. This also solves the zero distance issue. The only problem might be that this method could be bit ad-hoc and not consistent as we are just additional additional values only onto the $ii$ pairs and not consider the $ij$ pairs.
+1. For $ii$ pairs, we could add minimum distance from the centroid to the edge of the polygon geometry as the distance measure. While this is not a perfect measure, it still should work as a proxy for measuring the relative size of certain distance from traveling within the same tract. This also solves the zero distance issue. The only problem might be that this method could be bit ad-hoc and not consistent as we are just adding additional values only onto the $ii$ pairs and not consider the $ij$ pairs.
 
 Using this method, I get the following estimates for linear and PPML models:
 
@@ -238,7 +237,7 @@ I plot the map of the land rents in the following figure (Note that I z-scored l
 
 \normalsize
 
-It is hard to say whether the land rents are reasonable or not but my thoughts are that the results are not doing a good job of accurately recovering the actual land rents. While the results seem to correctly hint that regions near the center of the city have higher land rents, this is also not very accurate as tracts that are more close to the center of the city have lower land rents. According to some anecdotal evidence, the land rents of the center of the city should be the highest and the southern part of Philadelphia also should have a relatively higher land rents. These anecdotal evidence do not seem to be well captured by the results.
+It is hard to say whether the land rents are reasonable or not but my thoughts are that the results are not doing a good job of accurately recovering the actual land rents. While the results seem to correctly hint that regions near the center of the city have higher land rents, this is also not very accurate as tracts that are more close to the center of the city have lower land rents. According to some anecdotal evidence, the land rents of the center of the city should be the highest and the southern part of Philadelphia also should have relatively higher land rents. These anecdotal evidence do not seem to be well captured by the results.
 
 I am assuming that this is because of the simplifying assumptions we made. For example, we assumed that the land area is the same for all tracts. This is of course not the accurate depiction of the actual land areas of the tracts in Philadelphia county. Thus, these simplifying assumptions might be leading to a more less accurate results.
 

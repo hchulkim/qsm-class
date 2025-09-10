@@ -196,9 +196,9 @@
 \title{Coding assignment (QSM class)\thanks{I acknowledge that I worked
 with Coni, Yuxuan, and Eni. I also acknowledge that I used
 \citet{chatgpt} and \citet{cursor} to help me with the coding. They were
-only used for debugging and auto-completion. Thus, the main structure of
-the code was all written by the author. All the codes were later reviwed
-and finalized by the author.}}
+mostly used for debugging and auto-completion. Thus, the main structure
+of the code was all written by the author. All the codes were later
+reviwed and finalized by the author.}}
 \author{
 Hyoungchul Kim\thanks{email: hchulkim@wharton.upenn.edu}\\
 The Wharton School, University of Pennsylvania\\
@@ -221,8 +221,8 @@ language}\label{sec-use-of-programming-language}
 
 For questions 1-7, I used \texttt{R} programming language. I also used
 \texttt{R} for most of the data cleaning and manipulation. For other
-questions that requires more computational intensive analyses (modeling,
-etc.), I used \texttt{julia} programming language.
+questions that requires more computationally intensive analyses
+(modeling, etc.), I used \texttt{julia} programming language.
 
 \section{Main data information}\label{sec-main-data-info}
 
@@ -243,8 +243,8 @@ outside of Philadelphia county.
 As I mentioned in Section~\ref{sec-main-data-info}, I obtained bilateral
 commuting flow data from LEHD LODES for the year 2022. I also downloaded
 supporting data on the locations of the tracts or blocks underlying the
-the data. I downloaded them in the \texttt{input} folder. You can also
-use \texttt{make\ raw} command to automatically download the raw
+data. I downloaded them in the \texttt{input} folder. You can also use
+\texttt{make\ raw} command to automatically download the raw
 data.\footnote{Note that if you want to re-download the raw data, you
   must first use \texttt{make\ clean\_raw} command to remove the raw
   data in the \texttt{input} folder. Also note that if the original data
@@ -282,18 +282,12 @@ The estimation results are reported in the following table:
 \input{tables/q3_linear_model.tex}
 \end{table}
 
-\footnotesize \textbf{Note}: This table presents estimates results of
-the equation \ref{eq:distance}. \texttt{distance\_km} is the estimates
-of the semi-elasticity of the travel time (or distance). The values in
-the paranthesis in the table is the standard error.\vspace{3em}
+\footnotesize \textbf{Note}: This table presents estimation result of
+the equation \ref{eq:distance}. \texttt{distance\_km} is the estimate of
+the \(-\epsilon\kappa\). The value in the paranthesis is standard
+error.\vspace{3em}
 
 \normalsize
-
-You can see that the estimates of the semi-elasticity of the travel time
-(or distance) is sensible as it is negative (-0.07). This indicates that
-the travel time (or distance) has a negative correlation with the
-commuting flow. I also retained the estimates of the fixed effects in
-\texttt{input/q3\_linear\_model\_fes.csv}.
 
 \section*{Q4}\label{q4}
 \addcontentsline{toc}{section}{Q4}
@@ -316,22 +310,22 @@ retained the fixed effects estimates in the
 \input{tables/q4_ppml.tex}
 \end{table}
 
-\footnotesize \textbf{Note}: This table presents estimates results of
-the equation \ref{eq:ppml}. \texttt{distance\_km} is the estimates of
-the semi-elasticity of the travel time (or distance). The values in the
-paranthesis in the table is the standard error.\vspace{3em}
+\footnotesize \textbf{Note}: This table presents estimation result of
+the equation \ref{eq:ppml}. \texttt{distance\_km} is the estimate of the
+\(-\epsilon\kappa\). The value in the paranthesis is standard
+error.\vspace{3em}
 
 \normalsize
 
-We can clearly see that the etimates of the semi-elasticity of the
-distance differs from the estimates in the previous question. The
-absolute size of the estimates is larger in the PPML model. Intuitively,
-I think this occurs because the PPML model incorporates the zero
-commuting flows that were neglected in the linear model. Since the zero
-commuting flows were not fully incorporated in the linear model, the
-estimates in the linear model were underestimating the effect of the
-travel-time cost on the commuting flow. The estimates in the PPML model
-shifts downward to account for the zero commuting flows.
+We can clearly see that the estimate of the \(-\epsilon\kappa\) differs
+from the estimate in the previous question. The absolute size of the
+estimate is larger in the PPML model. Intuitively, I think this occurs
+because the PPML model incorporates the zero commuting flows that were
+neglected in the linear model. Since the zero commuting flows were not
+fully incorporated in the linear model, the estimate in the linear model
+was underestimating the effect of the travel-time cost on the commuting
+flow. The estimate in the PPML model shifts downward to account for the
+zero commuting flows.
 
 Something to note is that in PPML, FEs are not always identified. In our
 case, two FEs are not identified because there is no flow for any
@@ -350,7 +344,7 @@ tract-tract pair.
   measuring the relative size of certain distance from traveling within
   the same tract. This also solves the zero distance issue. The only
   problem might be that this method could be bit ad-hoc and not
-  consistent as we are just additional additional values only onto the
+  consistent as we are just adding additional values only onto the
   \(ii\) pairs and not consider the \(ij\) pairs.
 \end{enumerate}
 
@@ -618,9 +612,9 @@ hint that regions near the center of the city have higher land rents,
 this is also not very accurate as tracts that are more close to the
 center of the city have lower land rents. According to some anecdotal
 evidence, the land rents of the center of the city should be the highest
-and the southern part of Philadelphia also should have a relatively
-higher land rents. These anecdotal evidence do not seem to be well
-captured by the results.
+and the southern part of Philadelphia also should have relatively higher
+land rents. These anecdotal evidence do not seem to be well captured by
+the results.
 
 I am assuming that this is because of the simplifying assumptions we
 made. For example, we assumed that the land area is the same for all
