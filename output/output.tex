@@ -616,11 +616,26 @@ and the southern part of Philadelphia also should have relatively higher
 land rents. These anecdotal evidence do not seem to be well captured by
 the results.
 
-I am assuming that this is because of the simplifying assumptions we
-made. For example, we assumed that the land area is the same for all
-tracts. This is of course not the accurate depiction of the actual land
-areas of the tracts in Philadelphia county. Thus, these simplifying
-assumptions might be leading to a more less accurate results.
+One of the reasons why the results are not very accurate could be
+because of the simplifying assumptions we made. For example, we assumed
+that the land area is the same for all tracts. This is of course not the
+accurate depiction of the actual land areas of the tracts in
+Philadelphia county. I am also using tract-tract centroid distance as
+the measure for the travel time cost. This might not be accurate as
+perhaps there are certain factors that significantly affect the travel
+time that the actual travel time differs from the centroid distance.
+Thus, these simplifying assumptions might be leading to a more less
+accurate results.
+
+Another possible reason is that maybe the inversion process is not doing
+a very good job of recovering the actual land rents. In
+\citet{brinkman2024}, they use Chicago metropolitan area as their data
+for the inversion process. It might be that the model is not well-suited
+for Philadelphia county. For example, the paper mentions that Chicago
+provides a good setting given that it exhibits relatively centralized
+employment and has relatively homogeneous topography. While this also
+seems to be true for Philadelphia county, perhaps there are some
+differences that make the model not well-suited for Philadelphia county.
 
 \clearpage
 
