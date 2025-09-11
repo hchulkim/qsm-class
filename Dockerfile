@@ -13,6 +13,7 @@ ENV QUARTO_VERSION=1.7.32
 
 # Download and install quarto
 RUN /rocker_scripts/install_quarto.sh
+RUN quarto install tinytex
 
 # Install some R packages from source to avoid error
 RUN R -q -e "install.packages('stringi', type='source', repos='https://cloud.r-project.org')"

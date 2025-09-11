@@ -2,7 +2,7 @@
 title: Coding assignment (QSM class)
 format:
   aea-pdf:
-    keep-tex: true  
+    keep-tex: false  
     journal:
       blinded: false
     indent: true
