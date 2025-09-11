@@ -9,7 +9,7 @@ inputdir = input/
 outputdir = output/
 figsdir = output/figures/
 tabsdir = output/tables/
-papdir = output/paper/
+papdir = output/report/
 slidsdir = output/slides/
 rdir = src/R/
 jdir = src/julia/
@@ -17,7 +17,7 @@ jdir = src/julia/
 ## Headline build
 all: $(papdir)report.pdf 
 
-$(papdir)report.pdf: $(tabsdir)q3_linear_model.tex $(tabsdir)q4_ppml.tex $(tabsdir)q5_linear_model_solution1.tex $(tabsdir)q5_linear_model_solution2.tex $(tabsdir)q5_ppml_model_solution1.tex $(tabsdir)q5_ppml_model_solution2.tex $(figsdir)histogram_fixef.png $(tabsdir)residential_market_access.tex $(tabsdir)workplace_market_access.tex $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png  $(figsdir)land_rent.png  
+$(papdir)report.pdf: $(tabsdir)q3_linear_model.tex $(tabsdir)q4_ppml.tex $(tabsdir)q5_linear_model_solution1.tex $(tabsdir)q5_linear_model_solution2.tex $(tabsdir)q5_ppml_model_solution1.tex $(tabsdir)q5_ppml_model_solution2.tex $(figsdir)histogram_fixef.png $(tabsdir)residential_market_access.tex $(tabsdir)workplace_market_access.tex $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png $(figsdir)residential_market_access_fixed_point.png $(figsdir)workplace_market_access_fixed_point.png $(figsdir)land_rent.png  
 	quarto render $(outputdir)output.qmd
 	mv $(outputdir)output.pdf $(papdir)report.pdf
 # all: question1_8_r question_8_10_julia

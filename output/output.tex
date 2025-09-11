@@ -329,7 +329,9 @@ zero commuting flows.
 
 Something to note is that in PPML, FEs are not always identified. In our
 case, two FEs are not identified because there is no flow for any
-tract-tract pair.
+tract-tract pair. For this assignment, I will be not using the two FEs
+that drop due to 0 outcomes. However, past literature suggests that
+there are alternative ways to deal with this issue.
 
 \section*{Q5}\label{q5}
 \addcontentsline{toc}{section}{Q5}
@@ -422,9 +424,15 @@ estimates for the linear and PPML models. The values are normalized
 (z-score). The color represents the model. \texttt{linear\_q3} and
 \texttt{ppml\_q4} are the fixed effects estimates for the linear and
 PPML models in Q3 and Q4. \texttt{linear\_q5} and \texttt{ppml\_q5} are
-the fixed effects estimates for the linear and PPML models in Q5.
+the fixed effects estimates for the linear and PPML models in
+Q5.\vspace{2em}
 
 \normalsize
+
+It seems the distribution of the fixed effects estimates are too
+different from each other. Especially, the distribution is almost
+identical within the same model (linear and PPML). The only difference
+is that the PPML model seems to have slightly larger variations.
 
 \clearpage
 
@@ -596,7 +604,10 @@ After retrieving the wages for each location, the rest is pretty
 straightforward. This is because we no longer have the iterative
 equations. We can just solve for the land rents, neighborhood amenities
 and productivities using the equations in the Appendix F of
-\citet{brinkman2024}.
+\citet{brinkman2024}. I have implemented this procedure in
+\texttt{src/R/10\_recover\_fundamentals.R} and saved amenity and
+productivity data in \texttt{output/tables/amenity.csv} and
+\texttt{output/tables/productivity.csv}.
 
 I plot the map of the land rents in the following figure (Note that I
 z-scored land rents and then used \texttt{asinh} transformation to make

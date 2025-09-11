@@ -91,7 +91,7 @@ The estimation results are reported in the following table (I also retained the 
 
 We can clearly see that the estimate of the $-\epsilon\kappa$ differs from the estimate in the previous question. The absolute size of the estimate is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimate in the linear model was underestimating the effect of the travel-time cost on the commuting flow. The estimate in the PPML model shifts downward to account for the zero commuting flows. 
 
-Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair.
+Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair. For this assignment, I will be not using the two FEs that drop due to 0 outcomes. However, past literature suggests that there are alternative ways to deal with this issue.
 
 # Q5 {.unnumbered}
 
@@ -139,7 +139,7 @@ I plotted the boxplot of the fixed effects estimates for the linear and PPML mod
 
 ![Boxplot of the fixed effects estimates](figures/histogram_fixef.png){width=70%}
 
-\footnotesize \textbf{Note}: This is the boxplot of the fixed effects estimates for the linear and PPML models. The values are normalized (z-score). The color represents the model. `linear_q3` and `ppml_q4` are the fixed effects estimates for the linear and PPML models in Q3 and Q4. `linear_q5` and `ppml_q5` are the fixed effects estimates for the linear and PPML models in Q5.
+\footnotesize \textbf{Note}: This is the boxplot of the fixed effects estimates for the linear and PPML models. The values are normalized (z-score). The color represents the model. `linear_q3` and `ppml_q4` are the fixed effects estimates for the linear and PPML models in Q3 and Q4. `linear_q5` and `ppml_q5` are the fixed effects estimates for the linear and PPML models in Q5.\vspace{2em}
 
 \normalsize
 
@@ -235,7 +235,7 @@ I use the following matrix multiplication to setup the fixed point algorithm ($\
 
 For convenience, I did not put the power of the $-\frac{1}{\epsilon}$ in the equation above. Also note that I also did not inverse the rows of the matrix after the multiplication of $I \times J$ and $J \times 1$. I will add them in the fixed point algorithm.
 
-After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of @brinkman2024.
+After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of @brinkman2024. I have implemented this procedure in `src/R/10_recover_fundamentals.R` and saved amenity and productivity data in `output/tables/amenity.csv` and `output/tables/productivity.csv`.
 
 I plot the map of the land rents in the following figure (Note that I z-scored land rents and then used `asinh` transformation to make the map more readable. This is because the land rents are very skewed for certain tracts so raw values for other tracts become indistinguishable in the map):
 

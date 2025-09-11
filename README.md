@@ -1,13 +1,17 @@
 # qsm-class
 This is a repo for my coding assignment for REAL 9440
 
+## IMPORTANT
+
+This replication package runs all the analyses necessary to create a report `output/paper/report.pdf` in which I report and discuss the results of Tasks 3-10.
+
 ## 0. Computational requirements
 
 We strongly suggest following the requirements to install and set up the environment to run the analysis.
 
 ### Memory, storage and hardware Requirements
 
-The code was last run on a **Intel-based laptop with Linux Ubuntu 22.04.5 LTS (Jammy Jellyfish) with 1TB of total storage and 64GB of RAM**. Information on number of CPUs and cores is posted below: 
+The code was last run on a **Intel-based laptop with Linux Ubuntu 22.04 LTS (or 24.04) with 1TB of total storage and 64GB of RAM (Main)** and **Apple Sillicon M2 Max MacbookPro with Asahi Linux with 1TB of total storage and 96GB of RAM**. Information on number of CPUs and cores is posted below: 
 
 - CPU(s):                                22 
 - Thread(s) per core:                   2
@@ -87,9 +91,9 @@ This section gives instructions to run the replication package. There are two op
 > - If your computer architecture is in **ARM** (which is the case for Apple Silicon), docker build might fail. In this case, try this: `sudo docker build --platform=linux/amd64 -t qsm .`
 > - If docker build still fails, resort to option 2.
 
-3. Create a folder in your local machine to retrieve the results. e.g. `/home/username/Documents/result`
+3. Create a folder in your local machine to retrieve the results. e.g. `/home/username/Documents/output`
 4. Type `sudo docker run --rm -v /home/username/Documents/result:/home/project/shared_folder:rw qsm`
-5. The results will be stored inside your `result` local folder.
+5. The results will be stored inside your `output` local folder.
 
 ### Manually setup necessary project environment and run `GNU Make`
 

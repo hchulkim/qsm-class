@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hyoungchul Kim">
+<meta name="dcterms.date" content="2025-09-11">
+
+<title>Coding assignment (QSM class)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="output_files/libs/clipboard/clipboard.min.js"></script>
+<script src="output_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="output_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="output_files/libs/quarto-html/popper.min.js"></script>
+<script src="output_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="output_files/libs/quarto-html/anchor.min.js"></script>
+<link href="output_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="output_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="output_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="output_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="output_files/libs/bootstrap/bootstrap-af3b0b53a274c7d4e75779d930f447fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-use-of-programming-language" id="toc-sec-use-of-programming-language" class="nav-link active" data-scroll-target="#sec-use-of-programming-language"><span class="header-section-number">1</span> Use of programming language</a></li>
+  <li><a href="#sec-main-data-info" id="toc-sec-main-data-info" class="nav-link" data-scroll-target="#sec-main-data-info"><span class="header-section-number">2</span> Main data information</a>
+  <ul class="collapse">
+  <li><a href="#q1" id="toc-q1" class="nav-link" data-scroll-target="#q1">Q1</a></li>
+  <li><a href="#q2" id="toc-q2" class="nav-link" data-scroll-target="#q2">Q2</a></li>
+  <li><a href="#q3" id="toc-q3" class="nav-link" data-scroll-target="#q3">Q3</a></li>
+  </ul></li>
+  <li><a href="#q4" id="toc-q4" class="nav-link" data-scroll-target="#q4">Q4</a></li>
+  <li><a href="#q5" id="toc-q5" class="nav-link" data-scroll-target="#q5">Q5</a></li>
+  <li><a href="#q6" id="toc-q6" class="nav-link" data-scroll-target="#q6">Q6</a></li>
+  <li><a href="#q7" id="toc-q7" class="nav-link" data-scroll-target="#q7">Q7</a></li>
+  <li><a href="#q8" id="toc-q8" class="nav-link" data-scroll-target="#q8">Q8</a></li>
+  <li><a href="#q9" id="toc-q9" class="nav-link" data-scroll-target="#q9">Q9</a></li>
+  <li><a href="#q10" id="toc-q10" class="nav-link" data-scroll-target="#q10">Q10</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#a.-residential-market-access" id="toc-a.-residential-market-access" class="nav-link" data-scroll-target="#a.-residential-market-access">A. Residential market access</a></li>
+  <li><a href="#b.workplace-market-access" id="toc-b.workplace-market-access" class="nav-link" data-scroll-target="#b.workplace-market-access">B.Workplace market access</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../output.pdf"><i class="bi bi-file-pdf"></i>PDF (aea)</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Coding assignment (QSM class)</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Hyoungchul Kim </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            The Wharton School, University of Pennsylvania
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 11, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>This is a coding assignment for the QSM class.</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="sec-use-of-programming-language" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Use of programming language</h1>
+<p>For questions 1-7, I used <code>R</code> programming language. I also used <code>R</code> for most of the data cleaning and manipulation. For other questions that requires more computationally intensive analyses (modeling, etc.), I used <code>julia</code> programming language.</p>
+</section>
+<section id="sec-main-data-info" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Main data information</h1>
+<p>I am using the 2022 LODES data from LEHD for my analysis. I obtained the raw data for Philadelphia county from the LEHD website and aggregated the data into tract-tract level. The process of cleaning the raw data was conducted using the source code: <code>src/R/01_clean_raw_data.R</code>.</p>
+<p>My primary analysis zone will be bilateral commuting flow within Philadelphia county for the year 2022. This means I will not be considering the flow where either the origin or the destination is outside of Philadelphia county.</p>
+<section id="q1" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="q1">Q1</h2>
+<p>As I mentioned in <a href="#sec-main-data-info" class="quarto-xref">Section&nbsp;2</a>, I obtained bilateral commuting flow data from LEHD LODES for the year 2022. I also downloaded supporting data on the locations of the tracts or blocks underlying the data. I downloaded them in the <code>input</code> folder. You can also use <code>make raw</code> command to automatically download the raw data.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</section>
+<section id="q2" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="q2">Q2</h2>
+<p>For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used <code>sf</code> package and <code>tigris</code> package in R to calculate the distance between the centroids of the origin and destination tracts. The source code is available in <code>src/R/02_calculate_distance.R</code>. I also retained the fixed effects estimates in the Appendix.</p>
+</section>
+<section id="q3" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="q3">Q3</h2>
+<p>I estimated the following linear model:</p>
+<p><span class="math display">\[
+\log(N_{ij}) = \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:distance}
+\]</span></p>
+<p>The estimation results are reported in the following table:</p>
+<p>: This table presents estimation result of the equation <span class="math inline">\(\ref{eq:distance}\)</span>. <code>distance_km</code> is the estimate of the <span class="math inline">\(-\epsilon\kappa\)</span>. The value in the paranthesis is standard error.</p>
+</section>
+</section>
+<section id="q4" class="level1 unnumbered">
+<h1 class="unnumbered">Q4</h1>
+<p>After including all the <span class="math inline">\(ij\)</span> pairs and adding in zero commuting flows, I estimated the PPML model as follows:</p>
+<p><span class="math display">\[
+\log(\mathbb{E}[N_{ij}])= \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:ppml}
+\]</span></p>
+<p>The estimation results are reported in the following table (I also retained the fixed effects estimates in the <code>input/q4_ppml_fes.csv</code>):</p>
+<p>: This table presents estimation result of the equation <span class="math inline">\(\ref{eq:ppml}\)</span>. <code>distance_km</code> is the estimate of the <span class="math inline">\(-\epsilon\kappa\)</span>. The value in the paranthesis is standard error.</p>
+<p>We can clearly see that the estimate of the <span class="math inline">\(-\epsilon\kappa\)</span> differs from the estimate in the previous question. The absolute size of the estimate is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimate in the linear model was underestimating the effect of the travel-time cost on the commuting flow. The estimate in the PPML model shifts downward to account for the zero commuting flows.</p>
+<p>Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair. For this assignment, I will be not using the two FEs that drop due to 0 outcomes. However, past literature suggests that there are alternative ways to deal with this issue.</p>
+</section>
+<section id="q5" class="level1 unnumbered">
+<h1 class="unnumbered">Q5</h1>
+<ol type="1">
+<li>For <span class="math inline">\(ii\)</span> pairs, we could add minimum distance from the centroid to the edge of the polygon geometry as the distance measure. While this is not a perfect measure, it still should work as a proxy for measuring the relative size of certain distance from traveling within the same tract. This also solves the zero distance issue. The only problem might be that this method could be bit ad-hoc and not consistent as we are just adding additional values only onto the <span class="math inline">\(ii\)</span> pairs and not consider the <span class="math inline">\(ij\)</span> pairs.</li>
+</ol>
+<p>Using this method, I get the following estimates for linear and PPML models:</p>
+<ol start="2" type="1">
+<li>Another way would be to change the definition of the distance measure so that <span class="math inline">\(ii\)</span> pairs will not have zero values. We leverage the fact that our data can become more granular. That is, we have information on the longitude and latitude of the centroid of the census block. After calculating the distance between two centroids of the census blocks, we can use mean of the all the block-level distances within the same tract-tract pair as the distance measure of the tract-tract pairs. This will give us non-zero distance for <span class="math inline">\(ii\)</span> pairs.</li>
+</ol>
+<p>Using this method, I get the following estimates for linear and PPML models:</p>
+<p>You can see that the estimates are very similar to the estimates in the previous question. This suggests that perhaps the zero distance issue is not a major issue in the analysis.</p>
+</section>
+<section id="q6" class="level1 unnumbered">
+<h1 class="unnumbered">Q6</h1>
+<p>I plotted the boxplot of the fixed effects estimates for the linear and PPML models. The results are reported in the following figure:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/histogram_fixef.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Boxplot of the fixed effects estimates</figcaption>
+</figure>
+</div>
+<p>: This is the boxplot of the fixed effects estimates for the linear and PPML models. The values are normalized (z-score). The color represents the model. <code>linear_q3</code> and <code>ppml_q4</code> are the fixed effects estimates for the linear and PPML models in Q3 and Q4. <code>linear_q5</code> and <code>ppml_q5</code> are the fixed effects estimates for the linear and PPML models in Q5.</p>
+<p>It seems the distribution of the fixed effects estimates are too different from each other. Especially, the distribution is almost identical within the same model (linear and PPML). The only difference is that the PPML model seems to have slightly larger variations.</p>
+</section>
+<section id="q7" class="level1 unnumbered">
+<h1 class="unnumbered">Q7</h1>
+<p>My code in <code>src/R/07_create_market_access.R</code> creates the market access variable. For each residential and workplace tract, I calculate the market access variable using the definition in the question. I posted the result in the Appendix. In the main document, I will plot the map of the market access variable.</p>
+<div id="fig-market-access" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-market-access" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-residential-market-access" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-residential-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/residential_market_access.png" class="img-fluid figure-img" data-ref-parent="fig-market-access">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-residential-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Map of the residential market access
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-market-access" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-workplace-market-access" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-workplace-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/workplace_market_access.png" class="img-fluid figure-img" data-ref-parent="fig-market-access">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-workplace-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Map of the workplace market access
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-market-access-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+<p>: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score).</p>
+</section>
+<section id="q8" class="level1 unnumbered">
+<h1 class="unnumbered">Q8</h1>
+<p>I use two scripts to accomplish this. For data manipulation stage I use <code>src/R/08_fixed_point_algorithm.R</code> to create the sum of bilateral commuting flow and the expotential terms. For implementing fixed point algorithm, I use <code>src/julia/08_fixed_point_algorithm.jl</code>.</p>
+<p>I plot the map of the market access again below:</p>
+<div id="fig-market-access-fixed-point" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-market-access-fixed-point" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-residential-market-access-fixed-point" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-residential-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/residential_market_access_fixed_point.png" class="img-fluid figure-img" data-ref-parent="fig-market-access-fixed-point">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-residential-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Map of the residential market access
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-market-access-fixed-point" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-workplace-market-access-fixed-point" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-workplace-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/workplace_market_access_fixed_point.png" class="img-fluid figure-img" data-ref-parent="fig-market-access-fixed-point">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-workplace-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Map of the workplace market access
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-market-access-fixed-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+<p>: This is the map (Philadelphia county) of the market access variable. The color represents the market access variable. The lighter the color, the higher the market access. The values are normalized (z-score).</p>
+</section>
+<section id="q9" class="level1 unnumbered">
+<h1 class="unnumbered">Q9</h1>
+<p>While the level of the market access variable differs, the overall distribution of the market access variable is similar. That is, the ordinality of the market access variable is preserved for both cases. This result is consistent with the derivation of the market access equation we learned in class. To be specific, we discussed in page 21 of the week1-lecture 1 that the equations in Q8 and Q9 are equivalent way to derive market access variable. While the level of the market access variable could differ, the ordinality of the market access variable should be similar.</p>
+</section>
+<section id="q10" class="level1 unnumbered">
+<h1 class="unnumbered">Q10</h1>
+<p>Following Apppendix F of <span class="citation" data-cites="brinkman2024">Brinkman and Lin (<a href="#ref-brinkman2024" role="doc-biblioref">2024</a>)</span>, I need to create a fixed point algorithm to solve for the following equation<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. (We will assume that there are total <span class="math inline">\(J\)</span> workplace tracts and <span class="math inline">\(I\)</span> residential tracts. While the number of tracts is same, we just use separate indices for them to make it more clear in the equation.):</p>
+<p><span class="math display">\[\begin{align*}
+  \omega_j = \left( \frac{1}{N_{Wj}} \left[\sum_i \left( N_{Ri} \cdot d_{ij}^{-\epsilon}\right) \left[\sum_{j'} \left( w_{j'}^\epsilon \cdot d_{ij'}^{-\epsilon} \right)\right]^{-1}\right] \right)^{-\frac{1}{\epsilon}}
+\end{align*}\]</span></p>
+<p>I use the following matrix multiplication to setup the fixed point algorithm (<span class="math inline">\(\omega = T(\omega)\)</span>):</p>
+<p><span class="math display">\[\begin{align*}
+  \underbrace{
+  \begin{bmatrix}
+    \omega_1 \\
+    \omega_2 \\
+    \vdots \\
+    \omega_J
+  \end{bmatrix}}_{J \times 1}
+  = &amp;
+  \overbrace{
+  \begin{bmatrix}
+    \left(\frac{1}{N_{W1}} \cdot N_{R1} \cdot d_{11}^{-\epsilon}\right) &amp; \left(\frac{1}{N_{W1}} \cdot N_{R2} \cdot d_{21}^{-\epsilon}\right) &amp; \ldots &amp; \left(\frac{1}{N_{W1}} \cdot N_{RJ} \cdot d_{J1}^{-\epsilon}\right) \\
+    \left(\frac{1}{N_{W2}} \cdot N_{R1} \cdot d_{12}^{-\epsilon}\right) &amp; \left(\frac{1}{N_{W2}} \cdot N_{R2} \cdot d_{22}^{-\epsilon}\right) &amp; \ldots \\
+    \vdots &amp; \vdots &amp; \ddots \\
+    \left(\frac{1}{N_{WJ}} \cdot N_{R1} \cdot d_{1J}^{-\epsilon}\right) &amp; \left(\frac{1}{N_{WJ}} \cdot N_{R2} \cdot d_{2J}^{-\epsilon}\right) &amp; \ldots &amp; \left(\frac{1}{N_{WJ}} \cdot N_{RJ} \cdot d_{JJ}^{-\epsilon}\right) \\
+  \end{bmatrix}}^{J \times I} \times \\
+  &amp;\underbrace{
+  \begin{bmatrix}
+    d_{11}^{-\epsilon} &amp; d_{12}^{-\epsilon} &amp; \ldots &amp; d_{1J}^{-\epsilon} \\
+    d_{21}^{-\epsilon} &amp; d_{22}^{-\epsilon} &amp; \ldots &amp; d_{2J}^{-\epsilon} \\
+    \vdots &amp; \vdots &amp; \ddots \\
+    d_{I1}^{-\epsilon} &amp; d_{I2}^{-\epsilon} &amp; \ldots &amp; d_{IJ}^{-\epsilon} \\
+  \end{bmatrix}}_{I \times J} \times
+  \underbrace{
+  \left(\begin{bmatrix}
+    \omega_1 \\
+    \omega_2 \\
+    \vdots \\
+    \omega_J
+  \end{bmatrix}\right)^{\epsilon}}_{J \times 1}
+\end{align*}\]</span></p>
+<p>For convenience, I did not put the power of the <span class="math inline">\(-\frac{1}{\epsilon}\)</span> in the equation above. Also note that I also did not inverse the rows of the matrix after the multiplication of <span class="math inline">\(I \times J\)</span> and <span class="math inline">\(J \times 1\)</span>. I will add them in the fixed point algorithm.</p>
+<p>After retrieving the wages for each location, the rest is pretty straightforward. This is because we no longer have the iterative equations. We can just solve for the land rents, neighborhood amenities and productivities using the equations in the Appendix F of <span class="citation" data-cites="brinkman2024">Brinkman and Lin (<a href="#ref-brinkman2024" role="doc-biblioref">2024</a>)</span>. I have implemented this procedure in <code>src/R/10_recover_fundamentals.R</code> and saved amenity and productivity data in <code>output/tables/amenity.csv</code> and <code>output/tables/productivity.csv</code>.</p>
+<p>I plot the map of the land rents in the following figure (Note that I z-scored land rents and then used <code>asinh</code> transformation to make the map more readable. This is because the land rents are very skewed for certain tracts so raw values for other tracts become indistinguishable in the map):</p>
+<div id="fig-land-rent" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-land-rent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/land_rent.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-land-rent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Map of the land rents
+</figcaption>
+</figure>
+</div>
+<p>: This is the map (Philadelphia county) of the land rents. The color represents the land rents. The lighter the color, the higher the land rents. The values are normalized (z-score) and then transformed using <code>asinh</code> transformation to make the map more readable. The grey areas are tracts which we cannot recover the land rents as there is no flow for them.</p>
+<p>It is hard to say whether the land rents are reasonable or not but my thoughts are that the results are not doing a good job of accurately recovering the actual land rents. While the results seem to correctly hint that regions near the center of the city have higher land rents, this is also not very accurate as tracts that are more close to the center of the city have lower land rents. According to some anecdotal evidence, the land rents of the center of the city should be the highest and the southern part of Philadelphia also should have relatively higher land rents. These anecdotal evidence do not seem to be well captured by the results.</p>
+<p>One of the reasons why the results are not very accurate could be because of the simplifying assumptions we made. For example, we assumed that the land area is the same for all tracts. This is of course not the accurate depiction of the actual land areas of the tracts in Philadelphia county. I am also using tract-tract centroid distance as the measure for the travel time cost. This might not be accurate as perhaps there are certain factors that significantly affect the travel time that the actual travel time differs from the centroid distance. Thus, these simplifying assumptions might be leading to a more less accurate results.</p>
+<p>Another possible reason is that maybe the inversion process is not doing a very good job of recovering the actual land rents. In <span class="citation" data-cites="brinkman2024">Brinkman and Lin (<a href="#ref-brinkman2024" role="doc-biblioref">2024</a>)</span>, they use Chicago metropolitan area as their data for the inversion process. It might be that the model is not well-suited for Philadelphia county. For example, the paper mentions that Chicago provides a good setting given that it exhibits relatively centralized employment and has relatively homogeneous topography. While this also seems to be true for Philadelphia county, perhaps there are some differences that make the model not well-suited for Philadelphia county.</p>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-brinkman2024" class="csl-entry" role="listitem">
+Brinkman, Jeffrey, and Jeffrey Lin. 2024. <span>“Freeway Revolts! The Quality of Life Effects of Highways.”</span> <em>The Review of Economics and Statistics</em> 106 (5): 1268–84. <a href="https://doi.org/10.1162/rest_a_01244">https://doi.org/10.1162/rest_a_01244</a>.
+</div>
+<div id="ref-cursor" class="csl-entry" role="listitem">
+Cursor. 2025. <span>“Cursor AI.”</span> Large language model. <a href="https://www.cursor.com/">https://www.cursor.com/</a>.
+</div>
+<div id="ref-chatgpt" class="csl-entry" role="listitem">
+OpenAI. 2025. <span>“ChatGPT.”</span> Large language model. <a href="https://openai.com/api/">https://openai.com/api/</a>.
+</div>
+</div>
+</section>
+<section id="appendix" class="level2 supplementary unnumbered">
+<h2 class="supplementary unnumbered anchored" data-anchor-id="appendix">Appendix</h2>
+<section id="a.-residential-market-access" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="a.-residential-market-access">A. Residential market access</h3>
+
+</section>
+<section id="b.workplace-market-access" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="b.workplace-market-access">B.Workplace market access</h3>
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Note that if you want to re-download the raw data, you must first use <code>make clean_raw</code> command to remove the raw data in the <code>input</code> folder. Also note that if the original data was updated during the course of the semester, there is a likelihood that the new downloaded data might have different data structure that could affect the analysis.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I tweaked the equation from the paper to make it more clear for the matrix muliplication process I will be using below.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
