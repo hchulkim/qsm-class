@@ -15,7 +15,12 @@ rdir = src/R/
 jdir = src/julia/
 
 ## Headline build
-all: question1_8_r question_8_10_julia
+all: $(papdir)report.pdf 
+
+$(papdir)report.pdf: $(tabsdir)q3_linear_model.tex $(tabsdir)q4_ppml.tex $(tabsdir)q5_linear_model_solution1.tex $(tabsdir)q5_linear_model_solution2.tex $(tabsdir)q5_ppml_model_solution1.tex $(tabsdir)q5_ppml_model_solution2.tex $(figsdir)histogram_fixef.png $(tabsdir)residential_market_access.tex $(tabsdir)workplace_market_access.tex $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png  $(figsdir)land_rent.png  
+	quarto render $(outputdir)output.qmd
+	mv $(outputdir)output.pdf $(papdir)report.pdf
+# all: question1_8_r question_8_10_julia
 
 ## Draw the Makefile DAG
 ## Requires: https://github.com/lindenb/makefile2graph
@@ -24,10 +29,10 @@ makefile-dag.png: Makefile
 	make -Bnd all | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
 
 # Question 1-8 R
-question1_8_r: $(tabsdir)q3_linear_model.tex $(tabsdir)q4_ppml.tex $(tabsdir)q5_linear_model_solution1.tex $(tabsdir)q5_linear_model_solution2.tex $(tabsdir)q5_ppml_model_solution1.tex $(tabsdir)q5_ppml_model_solution2.tex $(tabsdir)residential_market_access.tex $(tabsdir)workplace_market_access.tex $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png $(figsdir)histogram_fixef.png
+# question1_8_r: $(tabsdir)q3_linear_model.tex $(tabsdir)q4_ppml.tex $(tabsdir)q5_linear_model_solution1.tex $(tabsdir)q5_linear_model_solution2.tex $(tabsdir)q5_ppml_model_solution1.tex $(tabsdir)q5_ppml_model_solution2.tex $(tabsdir)residential_market_access.tex $(tabsdir)workplace_market_access.tex $(figsdir)residential_market_access.png $(figsdir)workplace_market_access.png $(figsdir)histogram_fixef.png
 
 # Question 8-10 Julia
-question_8_10_julia: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv $(figsdir)residential_market_access_fixed_point.png $(figsdir)workplace_market_access_fixed_point.png
+# question_8_10_julia: $(inputdir)temp/Residence_df.csv $(inputdir)temp/Workplace_df.csv $(figsdir)residential_market_access_fixed_point.png $(figsdir)workplace_market_access_fixed_point.png
 
 # miscellaneous
 $(inputdir)temp/philly_od_tract_tract_2022.csv.gz: $(inputdir)pa_od_main_JT00_2022.csv.gz $(rdir)01_clean_raw_data.R
@@ -101,11 +106,11 @@ $(inputdir)pa_od_main_JT05_2020.csv.gz $(inputdir)pa_od_main_JT05_2021.csv.gz $(
 
 
 clean:
-	rm -f $(inputdir)temp/* $(figsdir)* $(tabsdir)*
+	rm -f $(inputdir)temp/* $(figsdir)* $(tabsdir)* $(papdir)*
 
 clean_raw:
 	rm -f $(inputdir)*
 	mkdir -p $(inputdir)temp/
 	
 ## Helpers
-.PHONY: all clean raw question1_8_r question_8_10_julia
+.PHONY: all raw clean clean_raw

@@ -1,5 +1,20 @@
 FROM hchulkim/r_4.5.1:master-e8ada17073138a2f323b2a7e80f0c51eac1f438e
 
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    tar \
+    ca-certificates \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set quarto version
+ENV QUARTO_VERSION=1.7.32
+
+# Download and install quarto
+RUN /rocker_scripts/install_quarto.sh
+
+# Install some R packages from source to avoid error
 RUN R -q -e "install.packages('stringi', type='source', repos='https://cloud.r-project.org')"
 RUN R -q -e "install.packages('sf', type='source', repos='https://cloud.r-project.org')"
 

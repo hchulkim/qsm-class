@@ -135,6 +135,16 @@ You can see that the estimates are very similar to the estimates in the previous
 
 # Q6 {.unnumbered}
 
+I plotted the boxplot of the fixed effects estimates for the linear and PPML models. The results are reported in the following figure:
+
+![Boxplot of the fixed effects estimates](figures/histogram_fixef.png){width=70%}
+
+\footnotesize \textbf{Note}: This is the boxplot of the fixed effects estimates for the linear and PPML models. The values are normalized (z-score). The color represents the model. `linear_q3` and `ppml_q4` are the fixed effects estimates for the linear and PPML models in Q3 and Q4. `linear_q5` and `ppml_q5` are the fixed effects estimates for the linear and PPML models in Q5.
+
+\normalsize
+
+It seems the distribution of the fixed effects estimates are too different from each other. Especially, the distribution is almost identical within the same model (linear and PPML). The only difference is that the PPML model seems to have slightly larger variations. 
+
 \clearpage
 
 # Q7 {.unnumbered}
