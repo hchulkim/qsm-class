@@ -105,17 +105,24 @@ If you don't want to use `Docker`, you can also manually setup necessary project
 
 1. Open `R` console from the top-level project directory.
 > \# Go to the top-level project directory and type R
+> 
 > $ R
 2. Use `renv::restore()` to install the packages in project library. Here is a more detailed instructions:
 > \# If you don't have renv package, install it
+> 
 > install.packages("renv")
+> 
 > \# Install necessary packages in project library
+> 
 > renv::restore()
 3. Open `julia` REPL.
 > \# Go to the top-level project directory and type julia
+> 
 > julia
+> 
 4. Install `DrWatson` julia package in the global environment
 > import Pkg; Pkg.add("DrWatson")
+> 
 4. Use `Pkg` in `julia` to instantiate the project environment.
 > import Pkg; Pkg.activate("."); Pkg.instantiate()
 
