@@ -9,7 +9,7 @@ This replication package runs all the analyses necessary to create a report `out
 
 We strongly suggest following the requirements to install and set up the environment to run the analysis.
 
-### Memory, storage and hardware Requirements
+### Memory, storage, hardware Requirements, and runtime
 
 The code was last run on a **Intel-based laptop with Linux Ubuntu 22.04 LTS (or 24.04) with 1TB of total storage and 64GB of RAM (Main)** and **Apple Sillicon M2 Max MacbookPro with Asahi Linux with 1TB of total storage and 96GB of RAM**. Information on number of CPUs and cores is posted below: 
 
@@ -17,6 +17,8 @@ The code was last run on a **Intel-based laptop with Linux Ubuntu 22.04 LTS (or 
 - Thread(s) per core:                   2
 - Core(s) per socket:                   16
 - Socket(s):                            1 
+
+It takes about 1200 seconds to fully run the replication package.
 
 ### OS-Specific Considerations
 
