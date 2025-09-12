@@ -44,8 +44,8 @@ This issue is mostly solved if you use the `Dockerfile` provided in the replicat
 
 For full reproducibility, this workflow requires:
 - [Bash](https://www.gnu.org/software/bash/) [Free]
-- [Docker CLI](https://www.docker.com) [Free]
-- [Quarto CLI](https://quarto.org/docs/get-started/) [Free]
+- [Docker](https://www.docker.com) [Free]
+- [Quarto](https://quarto.org/docs/get-started/) [Free]
 - [R](https://www.r-project.org/) [Free]
 - [Julia](https://julialang.org/) [Free]
 
@@ -86,6 +86,7 @@ This section gives instructions to run the replication package. There are two op
 
 ### [Option 1] Use `Docker` (highly recommended)
 
+0. Make sure you have installed `Docker` (https://docs.docker.com/desktop/setup/install/).
 1. Use terminal to navigate to the root project directory containing the `Dockerfile` file.
 2. Type `sudo docker build -t qsm .` in the terminal. This will start the docker build process.
 
