@@ -45,6 +45,7 @@ This issue is mostly solved if you use the `Dockerfile` provided in the replicat
 For full reproducibility, this workflow requires:
 - [Bash](https://www.gnu.org/software/bash/) [Free]
 - [Docker CLI](https://www.docker.com) [Free]
+- [Quarto CLI](https://quarto.org/docs/get-started/) [Free]
 - [R](https://www.r-project.org/) [Free]
 - [Julia](https://julialang.org/) [Free]
 
@@ -103,6 +104,10 @@ If you don't want to use `Docker`, you can also manually setup necessary project
 
 #### Setup necessary project environment
 
+0. Install `Quarto` from the website (https://quarto.org/docs/get-started/) and install tinytex in the terminal
+> \# After installing `Quarto`, go to the terminal and type this comman:
+> 
+> $ quarto install tinytex
 1. Open `R` console from the top-level project directory.
 > \# Go to the top-level project directory and type R
 > 
