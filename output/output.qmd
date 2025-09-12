@@ -44,7 +44,7 @@ As I mentioned in @sec-main-data-info, I obtained bilateral commuting flow data 
 
 ## Q2 {.unnumbered}
 
-For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used `sf` package and `tigris` package in R to calculate the distance between the centroids of the origin and destination tracts. The source code is available in `src/R/02_calculate_distance.R`. I also retained the fixed effects estimates in the Appendix.
+For distance, I will use the distance between the centroids of the origin and destination tracts. For this, I used `sf` package and `tigris` package in R to calculate the distance between the centroids of the origin and destination tracts. The source code is available in `src/R/02_calculate_distance.R`.
 
 ## Q3 {.unnumbered}
 
@@ -54,7 +54,7 @@ $$
 \log(N_{ij}) = \theta_{i} + \lambda_{j} - \epsilon \kappa d_{ij} + e_{ij}\label{eq:distance}
 $$
 
-The estimation results are reported in the following table:
+The estimation results are reported in the following table (I also retained the fixed effects estimates in the `input/q3_linear_model_fes.csv`):
 
 \clearpage
 
@@ -91,7 +91,7 @@ The estimation results are reported in the following table (I also retained the 
 
 We can clearly see that the estimate of the $-\epsilon\kappa$ differs from the estimate in the previous question. The absolute size of the estimate is larger in the PPML model. Intuitively, I think this occurs because the PPML model incorporates the zero commuting flows that were neglected in the linear model. Since the zero commuting flows were not fully incorporated in the linear model, the estimate in the linear model was underestimating the effect of the travel-time cost on the commuting flow. The estimate in the PPML model shifts downward to account for the zero commuting flows. 
 
-Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair. For this assignment, I will be not using the two FEs that drop due to 0 outcomes. However, past literature suggests that there are alternative ways to deal with this issue.
+Something to note is that in PPML, FEs are not always identified. In our case, two FEs are not identified because there is no flow for any tract-tract pair. For this assignment, I will be not using the two FEs that drop due to 0 outcomes. However, past literature suggests that there are alternative ways to deal with this issue. Unfortunately, I did not have time to implement these alternative ways. Still, I believe it would not seriously affect the results as there are only two FEs that are not identified and they should not take up a large enough portion of the differences in the estimates to later affect the market access variable.
 
 # Q5 {.unnumbered}
 
@@ -143,7 +143,7 @@ I plotted the boxplot of the fixed effects estimates for the linear and PPML mod
 
 \normalsize
 
-It seems the distribution of the fixed effects estimates are too different from each other. Especially, the distribution is almost identical within the same model (linear and PPML). The only difference is that the PPML model seems to have slightly larger variations. 
+It seems the distribution of the fixed effects estimates are not that different from each other. Especially, the distribution is almost identical within the same model (linear and PPML). The only difference is that the PPML model seems to have slightly larger variations. 
 
 \clearpage
 
