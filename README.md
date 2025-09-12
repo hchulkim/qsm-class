@@ -83,21 +83,21 @@ For this assignment, I use **LEHD LODES** commuting flow data. To be specific, I
 
 This section gives instructions to run the replication package. There are two options:
 
-### Use `Docker` (highly recommended)
+### [Option 1] Use `Docker` (highly recommended)
 
 1. Use terminal to navigate to the root project directory containing the `Dockerfile` file.
 2. Type `sudo docker build -t qsm .` in the terminal. This will start the docker build process.
 
 > **IMPORTANT**: Depending on your computer, there can be some issues in the buildup stage. Skip this if you do not have any issue running the above command.
 > - If the above command fails to fetch the necessary package to install from the network, try this command instead: `sudo docker build --network=host -t qsm .`
-> - If your computer architecture is in **ARM** (which is the case for Apple Silicon), docker build might fail. In this case, try this: `sudo docker build --platform=linux/amd64 -t qsm .`
+> - Sometimes Docker build process could fail due to some network connection issue. If the build process fails with reasons related to such cases, try running it again.
 > - If docker build still fails, resort to option 2.
 
 3. Create a folder in your local machine to retrieve the results. e.g. `/home/username/Documents/output`
 4. Type `sudo docker run --rm -v /home/username/Documents/result:/home/project/shared_folder:rw qsm`
 5. The results will be stored inside your `output` local folder.
 
-### Manually setup necessary project environment and run `GNU Make`
+### [Option 2] Manually setup necessary project environment and run `GNU Make`
 
 If you don't want to use `Docker`, you can also manually setup necessary project environment and use `GNU Make` to run the whole analysis.
 
