@@ -1,4 +1,4 @@
-FROM hchulkim/r_4.5.1:master-e8ada17073138a2f323b2a7e80f0c51eac1f438e
+FROM hchulkim/r_4.5.1:latest
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
