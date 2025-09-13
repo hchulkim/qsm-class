@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     tar \
     ca-certificates \
     wget \
-    librsvg2-bin \
     perl \
   && rm -rf /var/lib/apt/lists/*
 

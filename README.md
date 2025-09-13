@@ -88,11 +88,10 @@ This section gives instructions to run the replication package. There are two op
 
 0. Make sure you have installed `Docker` (https://docs.docker.com/desktop/setup/install/).
 1. Use terminal to navigate to the root project directory containing the `Dockerfile` file.
-2. Type `docker build -t qsm .` in the terminal. This will start the docker build process.
+2. Type `docker build --network=host -t qsm .` in the terminal. This will start the docker build process.
 
 > **IMPORTANT**: Depending on your computer, there can be some issues in the buildup stage. Skip this if you do not have any issue running the above command.
 > - You might get a permission error. In this case, add `sudo` command in the front. For example,  `docker build -t qsm .` will become  `sudo docker build -t qsm .`
-> - If the above command fails to fetch the necessary package to install from the network, try this command instead: `docker build --network=host -t qsm .`
 > - Sometimes Docker build process could fail due to some network connection issue. If the build process fails with reasons related to such cases, try running it again.
 > - If docker build still fails, resort to option 2.
 
