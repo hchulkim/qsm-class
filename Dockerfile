@@ -1,14 +1,5 @@
 FROM hchulkim/r_4.5.1:latest
 
-# Install system deps
-RUN apt-get update && apt-get install -y \
-    curl \
-    tar \
-    ca-certificates \
-    wget \
-    perl \
-  && rm -rf /var/lib/apt/lists/*
-
 ARG TARGETARCH
 ENV ARCH_TYPE=${TARGETARCH}
 
@@ -16,18 +7,23 @@ ENV ARCH_TYPE=${TARGETARCH}
 ENV QUARTO_VERSION=1.7.32
 RUN /rocker_scripts/install_quarto.sh
 
-# Ensure TinyTeX binaries are on PATH at build and run time
-ENV PATH="/root/.TinyTeX/bin/aarch64-linux:/root/.TinyTeX/bin/x86_64-linux:${PATH}"
-
 # --- TinyTeX install (arm64 manual, amd64 via Quarto) ---
 RUN set -eux; \
   if [ "$ARCH_TYPE" = "arm64" ]; then \
-    echo "(manual tinytex install for arm64)"; \
     wget -qO- "https://yihui.org/tinytex/install-unx.sh" | sh -s - --admin --no-path; \
-    tlmgr option repository https://mirror.ctan.org/systems/texlive/tlnet; \
   else \
     quarto install tinytex; \
   fi
+
+# Set TinyTeX path
+ENV PATH="/root/.TinyTeX/bin/aarch64-linux:/root/.TinyTeX/bin/x86_64-linux:${PATH}"
+
+# Set CTAN mirror for tlmgr
+ENV TEXLIVE_REPOSITORY="https://ctan.math.illinois.edu/systems/texlive/tlnet"
+
+# Set repo in tlmgr
+RUN tlmgr option repository "$TEXLIVE_REPOSITORY"; \
+  tlmgr update --self
 
 # Install some R packages from source to avoid error
 RUN R -q -e "install.packages('stringi', type='source', repos='https://cloud.r-project.org')"
