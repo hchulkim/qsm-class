@@ -3,7 +3,7 @@ This is a repo for my coding assignment for REAL 9440
 
 ## IMPORTANT
 
-This replication package runs all the analyses necessary to create a report `output/paper/report.pdf` in which I report and discuss the results of Tasks 3-10.
+This replication package runs all the analyses necessary to create a report `output/paper/report.pdf` in which I report and discuss the results of Tasks 3-10. I also copy-pasted the answer pdf in the top-level directory as `coding-assignment-answer.pdf`.
 
 ## 0. Computational requirements
 
